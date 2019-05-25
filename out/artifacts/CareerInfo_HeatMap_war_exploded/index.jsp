@@ -48,13 +48,9 @@
       <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+
           <a class="navbar-brand" href="#">全国招聘信息热力图展示</a>
+          <p class="navbar-text"><strong><a href="" class="navbar-link">xxx</a></strong>，欢迎登录</p>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->

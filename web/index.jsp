@@ -48,13 +48,9 @@
       <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+
           <a class="navbar-brand" href="#">全国招聘信息热力图展示</a>
+          <p class="navbar-text"><strong><a href="" class="navbar-link">xxx</a></strong>，欢迎登录</p>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -76,9 +72,6 @@
             </li>
           </ul>
           <form class="navbar-form navbar-right">
-            <div class="form-group">
-              <input type="text" class="form-control" placeholder="Search">
-            </div>
 <%--            <button type="submit" class="btn btn-default">Submit</button>--%>
             <div class="form-group">
               <label for="search_cname">公司名称</label>
