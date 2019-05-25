@@ -50,7 +50,7 @@
         <div class="navbar-header">
 
           <a class="navbar-brand" href="#">全国招聘信息热力图展示</a>
-          <p class="navbar-text"><strong><a href="" class="navbar-link">xxx</a></strong>，欢迎登录</p>
+          <p class="navbar-text"><strong><a href="" class="navbar-link">${user.username}</a></strong>，欢迎登录</p>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -264,7 +264,7 @@
   <div class="row">
     <nav class="navbar navbar-inverse navbar-default navbar-fixed-bottom" id="nav_bottom">
       <div class="container-fluid">
-        <p class="text-center" id="p_bottom">Copyright © 2018- 2019<a href="https://blog.xgblack.cn" class="navbar-link">小光</a></p>
+        <p class="text-center" id="p_bottom">Copyright © 2019 <a href="https://blog.xgblack.cn" class="navbar-link">小光&臾离blog</a></p>
 
       </div><!-- /.container-fluid -->
     </nav>
