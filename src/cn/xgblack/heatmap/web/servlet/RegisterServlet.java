@@ -17,14 +17,14 @@ import java.lang.reflect.InvocationTargetException;
 /**
  * @author 小光
  * @date 2019/5/26
- * className: LoginServlet
- * description: 验证登录信息
+ * className: RegisterServlet
+ * description: 验证注册信息
  * ***************************************************************************
  * Copyright(C),2018-2019,https://blog.xgblack.cn  .All rights reserved.
  * ***************************************************************************
  */
-@WebServlet(urlPatterns = "/loginServlet")
-public class LoginServlet extends HttpServlet {
+@WebServlet(urlPatterns = "/registerServlet")
+public class RegisterServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //获取session
@@ -39,41 +39,47 @@ public class LoginServlet extends HttpServlet {
         //先判断验证码是否正确
         if (!verifycode.equalsIgnoreCase(checkcode_session)) {
             //验证码不对，存储错误信息，并跳转
-            request.setAttribute("login_msg","验证码输入错误！");
-            request.getRequestDispatcher("login.jsp").forward(request,response);
+            request.setAttribute("regist_msg","验证码输入错误！");
+            request.getRequestDispatcher("regist.jsp").forward(request,response);
 
             //结束方法
             return;
         }
 
-
-
-        //封装对象
-        User loginUser = new User();
+        User registerUser = new User();
+        //获取map数据，并封装对象
         try {
-            BeanUtils.populate(loginUser,request.getParameterMap());
+            BeanUtils.populate(registerUser,request.getParameterMap());
         } catch (IllegalAccessException e) {
-            System.out.println("错误001:" + e);
-            request.setAttribute("login_msg","登录错误！，请联系管理员（错误001）");
-            request.getRequestDispatcher("login.jsp").forward(request,response);
+            System.out.println("错误003:" + e);
+            request.setAttribute("regist_msg","注册错误！，请联系管理员（错误003）");
+            request.getRequestDispatcher("regist.jsp").forward(request,response);
         } catch (InvocationTargetException e) {
-            System.out.println("错误002:" + e);
-            request.setAttribute("login_msg","登录错误！，请联系管理员（错误002）");
-            request.getRequestDispatcher("login.jsp").forward(request,response);
+            System.out.println("错误004:" + e);
+            request.setAttribute("regist_msg","注册错误！，请联系管理员（错误004）");
+            request.getRequestDispatcher("regist.jsp").forward(request,response);
         }
 
+        //调用service层方法
         UserService service = new UserServiceImpl();
-        //调用service层的方法，查询登录是否成功
-        User user = service.login(loginUser);
-        if (user == null) {
-            //用户名或密码错误
-            request.setAttribute("login_msg","用户名或密码错误");
-            request.getRequestDispatcher("login.jsp").forward(request,response);
-        }else {
-            //登陆成功
-            session.setAttribute("user",user);
-            //跳转页面（直接重定向）
-            response.sendRedirect(request.getContextPath() + "/index.jsp");
+
+        // 调用方法查看用户名是否已经被注册
+        if (service.usernameIsExist(registerUser)) {
+            //用户名已存在
+            request.setAttribute("regist_msg", "用户名已存在");
+            request.getRequestDispatcher("regist.jsp").forward(request, response);
+
+            return;
+        }
+
+        if (service.regist(registerUser)) {
+            //注册成功
+            request.setAttribute("login_msg", "注册成功，请登录");
+            request.getRequestDispatcher("login.jsp").forward(request, response);
+        } else {
+            //注册失败
+            request.setAttribute("regist_msg", "注册失败，请重试");
+            request.getRequestDispatcher("regist.jsp").forward(request, response);
         }
 
 

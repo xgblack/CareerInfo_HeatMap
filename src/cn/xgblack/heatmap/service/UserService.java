@@ -16,4 +16,20 @@ public interface UserService {
      * @return User user 登陆成功，返回封装好的user
      */
     User login(User loginUser);
+
+
+    /**
+     * 验证用户注册方法
+     * @param registerUser 根据用户输入，封装的user对象
+     * @return boolean 注册是否成功
+     */
+    boolean regist(User registerUser);
+
+    /**
+     * 查看用户名是否已经被注册
+     * @param registerUser  根据用户输入，封装的user对象
+     * @return boolean  是否已经存在
+     */
+    boolean usernameIsExist(User registerUser);
+
 }

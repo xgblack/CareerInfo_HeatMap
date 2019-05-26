@@ -19,9 +19,6 @@
     <link rel="stylesheet" href="css/registlogin.css">
     <script src="js/jquery-3.4.1.min.js"></script>
     <script type="text/javascript">
-        $(function () {
-
-        });
 
         function refreshCode() {
             var vcode = document.getElementById("vcode");
@@ -52,9 +49,7 @@
                         <div class="form-inline">
                             <label for="verifycode">验证码：</label>
                             <input type="text" name="verifycode" class="form-control" id="verifycode" placeholder="请输入验证码" style="width: 120px;" required/>
-                            <a href="javascript:refreshCode()"><img
-                                    src="${pageContext.request.contextPath}/checkCodeServlet"
-                                    title="看不清点击刷新" id="vcode"/></a>
+                            <a href="javascript:refreshCode()"><img src="${pageContext.request.contextPath}/checkCodeServlet" title="看不清点击刷新" id="vcode"/></a>
                         </div>
                         <hr/>
                         <div class="form-group" style="text-align: center;">

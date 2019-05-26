@@ -20,4 +20,33 @@ public class UserServiceImpl implements UserService{
         //调用dao层的方案
         return dao.findUserByUsernameAndPassword(loginUser);
     }
+
+    /**
+     * 验证用户注册方法
+     * @param registerUser 根据用户输入，封装的user对象
+     * @return boolean 注册是否成功
+     */
+    @Override
+    public boolean regist(User registerUser) {
+        //操作的数据库行数
+        int rows = dao.insertNewUser(registerUser);
+
+        if (rows == 1) {
+            //如果行数为1，则注册成功
+            return true;
+        }else{
+            //如果行数为1，则注册成功
+            return false;
+        }
+    }
+
+    @Override
+    public boolean usernameIsExist(User registerUser) {
+        int rows = dao.findUserByUsername(registerUser.getUsername());
+        if (rows == 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 }
