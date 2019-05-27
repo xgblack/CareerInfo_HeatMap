@@ -3,6 +3,8 @@ package cn.xgblack.heatmap.service;
 import cn.xgblack.heatmap.domain.Job;
 import cn.xgblack.heatmap.domain.PageBean;
 
+import java.util.Map;
+
 /**
  * @author 小光
  * @date 2019/5/26 15:01
@@ -12,11 +14,13 @@ import cn.xgblack.heatmap.domain.PageBean;
  */
 public interface JobService {
 
+
     /**
-     * 根据页码查找
+     *
      * @param currentPage 当前页码
      * @param rows 每页显示条数
+     * @param condition 分页+查询的条件
      * @return PageBean<User>
      */
-    PageBean<Job> findUserByPage(String currentPage, String rows);
+    PageBean<Job> findUserByPage(String currentPage, String rows, Map<String, String[]> condition);
 }

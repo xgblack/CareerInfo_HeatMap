@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Map;
 
 @WebServlet(urlPatterns = "/findJobsByPage")
 public class FindJobsByPageServlet extends HttpServlet {
@@ -29,9 +30,13 @@ public class FindJobsByPageServlet extends HttpServlet {
             rows = "10";
         }
 
+        //获取所有参数，Map集合(查询条件)
+        Map<String, String[]> condition = request.getParameterMap();
+
+
         //调用service层查询
         JobService service = new JobServiceImpl();
-        PageBean<Job> pb = service.findUserByPage(currentPage, rows);
+        PageBean<Job> pb = service.findUserByPage(currentPage, rows,condition);
 
         ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(pb);
