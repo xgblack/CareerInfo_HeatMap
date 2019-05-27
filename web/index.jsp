@@ -39,6 +39,53 @@
   <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
   <![endif]-->
+  <script>
+    $(function () {
+      $.get("${pageContext.request.contextPath}/findJobsByPage",{currentPage:2,rows:10},function (data,index) {
+
+        var totalCount = data["totalCount"];
+        var totalPage = data["totalPage"];
+        var currentPage = data["currentPage"];
+        var rows = 10;
+        var list = data["list"];
+
+        var htmlstr = "";
+        $.each(list, function (index, value) {
+          alert(value.cname);
+
+          var cname = value.cname;
+          var janme = value.jname;
+          var wage = value.minwage + "-" + value.maxwage;
+
+          htmlstr += '<tr>';
+          htmlstr += '<td>' + (index + 1) + '</td>';
+          htmlstr += '<td>' + cname + '</td>';
+          htmlstr += '<td>' + janme + '</td>';
+          htmlstr += '<td>' + wage + '</td>';
+          htmlstr += '</tr>';
+        });
+        $("#table").append(htmlstr);
+      });
+
+
+      <%--$.get("${pageContext.request.contextPath}/findJobsServlet",function (data,index) {--%>
+      <%--  var htmlstr = "";--%>
+      <%--  $.each(data, function (index, value) {--%>
+      <%--    var cname = value.cname;--%>
+      <%--    var janme = value.jname;--%>
+      <%--    var wage = value.minwage + "-" + value.maxwage;--%>
+
+      <%--    htmlstr += '<tr>';--%>
+      <%--    htmlstr += '<td>' + (index + 1) + '</td>';--%>
+      <%--    htmlstr += '<td>' + cname + '</td>';--%>
+      <%--    htmlstr += '<td>' + janme + '</td>';--%>
+      <%--    htmlstr += '<td>' + wage + '</td>';--%>
+      <%--    htmlstr += '</tr>';--%>
+      <%--  });--%>
+      <%--  $("#table").append(htmlstr);--%>
+      <%--});--%>
+    });
+  </script>
 </head>
 <body>
 <!--页面布局容器-->
@@ -121,7 +168,7 @@
 
 
         <div class="table-responsive">
-          <table class="table table-condensed table-bordered table-hover">
+          <table class="table table-condensed table-bordered table-hover" id="table">
             <tr class="success">
               <th colspan="4" class="text-center">全国招聘信息</th>
             </tr>
@@ -131,96 +178,96 @@
               <th class="text-center">职位名称</th>
               <th class="text-center">工资</th>
             </tr>
-            <tr>
-              <td>1</td>
-              <td>阿里巴巴</td>
-              <td>Java开发工程师</td>
-              <td>5000-6000</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>阿里巴巴</td>
-              <td>Java开发工程师</td>
-              <td>5000-6000</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>阿里巴巴</td>
-              <td>Java开发工程师</td>
-              <td>5000-6000</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>阿里巴巴</td>
-              <td>Java开发工程师</td>
-              <td>5000-6000</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>阿里巴巴</td>
-              <td>Java开发工程师</td>
-              <td>5000-6000</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>阿里巴巴</td>
-              <td>Java开发工程师</td>
-              <td>5000-6000</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>阿里巴巴</td>
-              <td>Java开发工程师</td>
-              <td>5000-6000</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>阿里巴巴</td>
-              <td>Java开发工程师</td>
-              <td>5000-6000</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>阿里巴巴</td>
-              <td>Java开发工程师</td>
-              <td>5000-6000</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>阿里巴巴</td>
-              <td>Java开发工程师</td>
-              <td>5000-6000</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>阿里巴巴</td>
-              <td>Java开发工程师</td>
-              <td>5000-6000</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>阿里巴巴</td>
-              <td>Java开发工程师</td>
-              <td>5000-6000</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>阿里巴巴</td>
-              <td>Java开发工程师</td>
-              <td>5000-6000</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>阿里巴巴</td>
-              <td>Java开发工程师</td>
-              <td>5000-6000</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>阿里巴巴</td>
-              <td>Java开发工程师</td>
-              <td>5000-6000</td>
-            </tr>
+<%--            <tr>--%>
+<%--              <td>1</td>--%>
+<%--              <td>阿里巴巴</td>--%>
+<%--              <td>Java开发工程师</td>--%>
+<%--              <td>5000-6000</td>--%>
+<%--            </tr>--%>
+<%--            <tr>--%>
+<%--              <td>1</td>--%>
+<%--              <td>阿里巴巴</td>--%>
+<%--              <td>Java开发工程师</td>--%>
+<%--              <td>5000-6000</td>--%>
+<%--            </tr>--%>
+<%--            <tr>--%>
+<%--              <td>1</td>--%>
+<%--              <td>阿里巴巴</td>--%>
+<%--              <td>Java开发工程师</td>--%>
+<%--              <td>5000-6000</td>--%>
+<%--            </tr>--%>
+<%--            <tr>--%>
+<%--              <td>1</td>--%>
+<%--              <td>阿里巴巴</td>--%>
+<%--              <td>Java开发工程师</td>--%>
+<%--              <td>5000-6000</td>--%>
+<%--            </tr>--%>
+<%--            <tr>--%>
+<%--              <td>1</td>--%>
+<%--              <td>阿里巴巴</td>--%>
+<%--              <td>Java开发工程师</td>--%>
+<%--              <td>5000-6000</td>--%>
+<%--            </tr>--%>
+<%--            <tr>--%>
+<%--              <td>1</td>--%>
+<%--              <td>阿里巴巴</td>--%>
+<%--              <td>Java开发工程师</td>--%>
+<%--              <td>5000-6000</td>--%>
+<%--            </tr>--%>
+<%--            <tr>--%>
+<%--              <td>1</td>--%>
+<%--              <td>阿里巴巴</td>--%>
+<%--              <td>Java开发工程师</td>--%>
+<%--              <td>5000-6000</td>--%>
+<%--            </tr>--%>
+<%--            <tr>--%>
+<%--              <td>1</td>--%>
+<%--              <td>阿里巴巴</td>--%>
+<%--              <td>Java开发工程师</td>--%>
+<%--              <td>5000-6000</td>--%>
+<%--            </tr>--%>
+<%--            <tr>--%>
+<%--              <td>1</td>--%>
+<%--              <td>阿里巴巴</td>--%>
+<%--              <td>Java开发工程师</td>--%>
+<%--              <td>5000-6000</td>--%>
+<%--            </tr>--%>
+<%--            <tr>--%>
+<%--              <td>1</td>--%>
+<%--              <td>阿里巴巴</td>--%>
+<%--              <td>Java开发工程师</td>--%>
+<%--              <td>5000-6000</td>--%>
+<%--            </tr>--%>
+<%--            <tr>--%>
+<%--              <td>1</td>--%>
+<%--              <td>阿里巴巴</td>--%>
+<%--              <td>Java开发工程师</td>--%>
+<%--              <td>5000-6000</td>--%>
+<%--            </tr>--%>
+<%--            <tr>--%>
+<%--              <td>1</td>--%>
+<%--              <td>阿里巴巴</td>--%>
+<%--              <td>Java开发工程师</td>--%>
+<%--              <td>5000-6000</td>--%>
+<%--            </tr>--%>
+<%--            <tr>--%>
+<%--              <td>1</td>--%>
+<%--              <td>阿里巴巴</td>--%>
+<%--              <td>Java开发工程师</td>--%>
+<%--              <td>5000-6000</td>--%>
+<%--            </tr>--%>
+<%--            <tr>--%>
+<%--              <td>1</td>--%>
+<%--              <td>阿里巴巴</td>--%>
+<%--              <td>Java开发工程师</td>--%>
+<%--              <td>5000-6000</td>--%>
+<%--            </tr>--%>
+<%--            <tr>--%>
+<%--              <td>1</td>--%>
+<%--              <td>阿里巴巴</td>--%>
+<%--              <td>Java开发工程师</td>--%>
+<%--              <td>5000-6000</td>--%>
+<%--            </tr>--%>
           </table>
         </div>
 
