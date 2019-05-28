@@ -17,14 +17,14 @@
     padding-left: 0;
     padding-right: 0;
 }
-#search_btn{
-    /*float :right;*/
-}
+
 #p_bottom{
     margin: 20px auto auto 20px;
     color: white;
 }
-
+#inp_skipPage{
+    width: 90px;
+}
 
 /* 切换底图div的CSS配置*/
 .mswitch {

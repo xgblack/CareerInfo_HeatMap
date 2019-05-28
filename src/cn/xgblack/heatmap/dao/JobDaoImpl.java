@@ -2,6 +2,7 @@ package cn.xgblack.heatmap.dao;
 
 import cn.xgblack.heatmap.domain.Job;
 import cn.xgblack.heatmap.util.JDBCUtils;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -31,40 +32,19 @@ public class JobDaoImpl implements JobDao {
     public int findTotalCount(Map<String, String[]> condition) {
         String sql = "SELECT COUNT(*) FROM job WHERE 1 = 1 ";
 
-        StringBuffer sb = new StringBuffer(sql);
+        StringBuilder sb = new StringBuilder(sql);
 
-        //定义一个集合存储SQL语句的参数
-        List<Object> params = new ArrayList<>();
-
-        //遍历map
-        Set<String> keySet = condition.keySet();
-        for (String key : keySet) {
-            //排除掉分页条件
-            if ("currentPage".equals(key) || "rows".equals(key)) {
-                continue;
-            }
-
-
-            //获取key对应的值
-            String value = condition.get(key)[0];
-
-            if ("minwage".equals(key)) {
-                sb.append(" AND " + key + " > ? ");
-                params.add(value);
-                continue;
-            }
-
-            if (value != null && !"".equals(value)) {
-                sb.append(" AND " + key + " LIKE ? ");
-                params.add("%" + value + "%");
-            }
-        }
+        List<Object> params = getPagingCondition(sb, condition);
 
         sb.append(" ;");
         sql = sb.toString();
 
-        Integer totalCount = template.queryForObject(sql, Integer.class,params.toArray());
-        return totalCount;
+        try {
+            Integer totalCount = template.queryForObject(sql, Integer.class,params.toArray());
+            return totalCount;
+        } catch (DataAccessException e) {
+            return 0 ;
+        }
     }
 
 
@@ -82,6 +62,31 @@ public class JobDaoImpl implements JobDao {
         StringBuilder sb = new StringBuilder(sql);
 
 
+        List<Object> params = getPagingCondition(sb, condition);
+
+        sb.append(" LIMIT ? , ? ;");
+        params.add(start);
+        params.add(rows);
+
+        sql = sb.toString();
+
+        System.out.println(sql);
+
+        try {
+            List<Job> list = template.query(sql, new BeanPropertyRowMapper<>(Job.class),params.toArray());
+            return list;
+        } catch (DataAccessException e) {
+            return null;
+        }
+    }
+
+    /**
+     * 封装方法，获取SQL语句执行所需要的参数
+     * @param sb 存储SQL语句后半部分
+     * @param condition 查询条件
+     * @return List<Object>SQL语句执行所需要的参数
+     */
+    private List<Object> getPagingCondition(StringBuilder sb,Map<String, String[]>condition){
         //定义一个集合存储SQL语句的参数
         List<Object> params = new ArrayList<>();
 
@@ -96,7 +101,7 @@ public class JobDaoImpl implements JobDao {
             String value = condition.get(key)[0];
 
             if ("minwage".equals(key)) {
-                sb.append(" AND " + key + " > ? ");
+                sb.append(" AND " + key + " >= ? ");
                 params.add(value);
                 continue;
             }
@@ -106,13 +111,8 @@ public class JobDaoImpl implements JobDao {
                 params.add("%" + value + "%");
             }
         }
-
-        sb.append(" LIMIT ? , ? ;");
-        params.add(start);
-        params.add(rows);
-
-        sql = sb.toString();
-        List<Job> list = template.query(sql, new BeanPropertyRowMapper<Job>(Job.class),params.toArray());
-        return list;
+        return params;
     }
+
+
 }

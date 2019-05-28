@@ -40,32 +40,18 @@
     <![endif]-->
     <script>
         //首次打开页面
-        $.get("${pageContext.request.contextPath}/findJobsByPage",
-            function (data, index) {
-                var totalCount = data["totalCount"];
-                var totalPage = data["totalPage"];
-                var currentPage = data["currentPage"];
-                var rows = 10;
-                var list = data["list"];
+        search();
 
-                var htmlstr = "";
-                $.each(list, function (index, value) {
 
-                    var cname = value.cname;
-                    var janme = value.jname;
-                    var wage = value.minwage + "-" + value.maxwage;
+        //总记录数
+        var totalCount ;
+        //总页码
+        var totalPage ;
+        //当前页码
+        var currentPage;
+        //每页记录数
+        var rows = 10;
 
-                    htmlstr += '<tr class="thejob">';
-                    htmlstr += '<td>' + (index + 1) + '</td>';
-                    htmlstr += '<td>' + cname + '</td>';
-                    htmlstr += '<td>' + janme + '</td>';
-                    htmlstr += '<td>' + wage + '</td>';
-                    htmlstr += '</tr>';
-                });
-                $(".thejob").remove();
-                $("#table").append(htmlstr);
-
-            });
         //入口函数
         $(function () {
             //搜索按钮绑定单击事件
@@ -84,10 +70,10 @@
                     minwage:$("#search_minwage").val()
                 },
                 function (data, index) {
-                    var totalCount = data["totalCount"];
-                    var totalPage = data["totalPage"];
-                    var currentPage = data["currentPage"];
-                    var rows = 10;
+                    totalCount = data["totalCount"];
+                    totalPage = data["totalPage"];
+                    currentPage = data["currentPage"];
+                    rows = 10;
                     var list = data["list"];
 
                     var htmlstr = "";
@@ -234,14 +220,14 @@
                             </a>
                         </li>
                     </ul>
-                    <form class="form-inline">
-                        <div class="form-group">
-                            <label for="inp_skipPage">1500条记录，共100页</label>
+
+                        <div class="form-group form-inline">
+                            <label for="inp_skipPage">(加载中...)条记录，共(加载中...)页</label>
                             <input type="text" class="form-control" id="inp_skipPage" name="skipPage"
-                                   placeholder="请输入要跳转的页码">
+                                   placeholder="跳转页码">
+                            <button  class="btn btn-default" id="btn_skipPage">跳转</button>
                         </div>
-                        <button type="submit" class="btn btn-default">跳转</button>
-                    </form>
+
 
                 </nav>
 
