@@ -38,6 +38,7 @@ public class FindJobsByPageServlet extends HttpServlet {
         JobService service = new JobServiceImpl();
         PageBean<Job> pb = service.findUserByPage(currentPage, rows,condition);
 
+        //调用json，并将PageBean对象转换为json
         ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(pb);
 
