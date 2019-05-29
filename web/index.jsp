@@ -24,8 +24,8 @@
 
     <link rel="stylesheet" href="css/mapstyle.css">
 
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"/>
-    <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+<%--    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"/>--%>
+<%--    <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>--%>
 
     <script src="js/heatmap.js"></script>
     <script src="js/leaflet-heatmap.js"></script>
