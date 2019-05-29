@@ -3,10 +3,15 @@
     padding: 0;
     box-sizing: border-box;
 }
+body{
+    background-color: #c0c0c0;
+}
 
 #mapid{
     height: 1000px;
-    margin-top: 50px;
+    margin-left: 20px;
+    margin-top: 80px;
+    border-radius: 30px;
 }
 #div_tab{
     margin-top: 50px;
@@ -16,6 +21,9 @@
 #col_tab{
     padding-left: 0;
     padding-right: 0;
+}
+#col_tab{
+    margin-bottom: 60px;
 }
 
 #p_bottom{

@@ -27,11 +27,13 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"/>
     <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
 
+    <script src="js/heatmap.js"></script>
+    <script src="js/leaflet-heatmap.js"></script>
+
     <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
     <script src="js/jquery-3.4.1.min.js"></script>
 
-    <script src="js/heatmap.js"></script>
-    <script src="js/leaflet-heatmap.js"></script>
+
 
 
     <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
@@ -56,8 +58,34 @@
             //分页栏显示的页数，默认为10 （且一般不会更改）
             var paginationmax = 10;
 
-            //首次打开页面
+            //首次打开页面,加载列表
             search(currentPage);
+            //首次打开页面，加载全部热力图的点
+            $.get(
+                "${pageContext.request.contextPath}/findJobsServlet",
+                function (allData) {
+                    var heatmapData = {
+                        max : allData.length + 1,
+                        data: JSON.parse(allData)
+                    };
+                    //配置
+                    var cfg = {
+                        "radius": 0.05,
+                        "maxOpacity": .8,
+                        "scaleRadius": true,
+                        "useLocalExtrema": true,
+                        latField: 'lat',
+                        lngField: 'lon',
+                        valueField: 'minwage'
+                    };
+
+
+
+                    var heatmapLayer = new HeatmapOverlay(cfg);//图层
+                    map.addLayer(heatmapLayer);
+                    heatmapLayer.setData(heatmapData);
+                }
+            );
 
             //搜索按钮绑定单击事件
             $("#search_btn").click(function () {
@@ -149,6 +177,8 @@
 
             //  生成页码
             function initPagination(element,totalCount,totalPage,currentPage,paginationmax){
+                //TODO
+                //当总页数小于最大显示的页码数
                 /*if (totalPage = 0) {
                     // var content =
                 }*/
@@ -172,8 +202,10 @@
                         "</ul>";
                     $(element).html("");
                     element.append(content);
+
                     //页码下方提示信息
                     $("#label_sinfo").html(totalCount + "条记录，共" + totalPage + "页");
+
                     //为设置为当前页的页签添加样式active
                     element.children('ul').children('li[value = '+ currentPage +']').addClass('active');
                     element.children('ul').children('li').click(clickChange);
@@ -286,7 +318,8 @@
 
                 <%--显示登录信息--%>
                 <c:if test="${not empty user.username}">
-                    <p class="navbar-text"><strong><a href="javascript:void(0);" class="navbar-link">${user.username}</a></strong>，欢迎登录</p>
+                    <img src="img/XG003.png" width="20px" height="20px" class="navbar-text" title="${user.username}">
+                    <p class="navbar-text"><a href="javascript:void(0);" class="navbar-link"><span class="label label-success">${user.username}</span></a>，欢迎登录</p>
                 </c:if>
 
             </div>

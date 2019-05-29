@@ -1,6 +1,7 @@
 package cn.xgblack.heatmap.dao;
 
 import cn.xgblack.heatmap.domain.Job;
+import cn.xgblack.heatmap.domain.JobHeatmapData;
 
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,11 @@ import java.util.Map;
  */
 public interface JobDao {
 
+    /**
+     * 直接查找所有Job数据,只包含jid,lat,lon,minwage,maxwage
+     * @return List<Job>
+     */
+    List<JobHeatmapData> findAllJob();
 
     /**
      * 查询总记录数

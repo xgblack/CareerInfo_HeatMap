@@ -3,6 +3,7 @@ package cn.xgblack.heatmap.service;
 import cn.xgblack.heatmap.dao.JobDao;
 import cn.xgblack.heatmap.dao.JobDaoImpl;
 import cn.xgblack.heatmap.domain.Job;
+import cn.xgblack.heatmap.domain.JobHeatmapData;
 import cn.xgblack.heatmap.domain.PageBean;
 
 import java.util.List;
@@ -21,6 +22,15 @@ public class JobServiceImpl implements JobService {
     private JobDao dao = new JobDaoImpl();
 
     /**
+     * 直接查找所有Job数据,只包含jid,lat,lon,minwage,maxwage
+     * @return List<Job>
+     */
+    @Override
+    public List<JobHeatmapData> findAllJob() {
+        return dao.findAllJob();
+    }
+
+    /**
      *
      * @param currentPageStr 当前页码
      * @param rowsStr 每页显示条数
@@ -28,7 +38,7 @@ public class JobServiceImpl implements JobService {
      * @return PageBean<User>
      */
     @Override
-    public PageBean<Job> findUserByPage(String currentPageStr, String rowsStr, Map<String, String[]>condition) {
+    public PageBean<Job> findJobByPage(String currentPageStr, String rowsStr, Map<String, String[]>condition) {
         int currentPage = Integer.parseInt(currentPageStr);
         if (currentPage <= 0) {
             currentPage = 1;

@@ -25,20 +25,20 @@ map = L.map("mapid", {
     zoomControl: true,
     attributionControl: false
 });
-provAndcitylayers = new L.FeatureGroup();
-map.addLayer(provAndcitylayers);
+// provAndcitylayers = new L.FeatureGroup();
+// map.addLayer(provAndcitylayers);
+//
+// L.marker([34.607181, 119.2140000]).addTo(map)
+//     .bindPopup("<b>我在淮海工学院!</b><br />我是一个点").openPopup();
 
-L.marker([34.607181, 119.2140000]).addTo(map)
-    .bindPopup("<b>我在淮海工学院!</b><br />我是一个点").openPopup();
 
+// L.circle([34.607181, 119.2140000], 500, {
+//     color: 'blue',
+//     fillColor: '#90D',
+//     fillOpacity: 0.5
+// }).addTo(map).bindPopup("I am a circle.");
 
-L.circle([34.607181, 119.2140000], 500, {
-    color: 'blue',
-    fillColor: '#90D',
-    fillOpacity: 0.5
-}).addTo(map).bindPopup("I am a circle.");
-
-var popup = L.popup();
+// var popup = L.popup();
 
 
 
@@ -78,54 +78,3 @@ function swout() {
     $(".mswitch span").css("background-color", "");
     $(".mswitch span").css("color", "rgb(102, 102, 102)"); //color: rgb(102, 102, 102)
 }
-
-
-var testData = {
-    max: 8,
-    data:
-
-        [{
-            "lat": "34.62176", "lng": "119.214736", "count": "10285"
-        },
-
-            { "lat": "34.61498", "lng": "119.210096", "count": "10204 " },
-
-            { "lat": "34.59902", "lng": "119.222416", "count": "10508" },
-
-            { "lat": "34.59898", "lng": "119.210984", "count": "9041" },
-
-            { "lat": "34.591312", "lng": "119.221184", "count": "7442" },
-
-            { "lat": "34.607992", "lng": "119.204112", "count": "12634" },
-
-            { "lat": "34.601408", "lng": "119.20216", "count": "11269" },
-
-            { "lat": "34.59884", "lng": "119.195928", "count": "12282" }]
-
-};
-//配置
-var cfg = {
-    "radius": 0.008,
-    "maxOpacity": .8,
-    "scaleRadius": true,
-    "useLocalExtrema": true,
-    latField: 'lat',
-    lngField: 'lng',
-    valueField: 'count'
-};
-
-
-L.marker([34.62176, 119.214736]).addTo(map).bindPopup("四季金辉");
-L.marker([34.61498, 119.210096]).addTo(map).bindPopup("秀逸苏杭");
-L.marker([34.59902, 119.222416]).addTo(map).bindPopup("水木华园");
-L.marker([34.59898, 119.210984]).addTo(map).bindPopup("一品国际");
-L.marker([34.591312, 119.221184]).addTo(map).bindPopup("水木华园");
-L.marker([34.607992, 119.204112]).addTo(map).bindPopup("同科汇丰国际");
-L.marker([34.601408, 119.20216]).addTo(map).bindPopup("君臣大厦");
-L.marker([34.59884, 119.195928]).addTo(map).bindPopup("苍梧小区");
-
-
-
-var heatmapLayer = new HeatmapOverlay(cfg);//图层
-map.addLayer(heatmapLayer);
-heatmapLayer.setData(testData);
