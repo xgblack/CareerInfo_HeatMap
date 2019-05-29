@@ -24,11 +24,14 @@
 
     <link rel="stylesheet" href="css/mapstyle.css">
 
-<%--    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"/>--%>
-<%--    <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>--%>
 
-    <script src="js/heatmap.js"></script>
-    <script src="js/leaflet-heatmap.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=zKfGbrgNomYkFrUEy8a09Tw1PLudhUnU">
+        //v2.0版本的引用方式：src="http://api.map.baidu.com/api?v=2.0&ak=您的密钥"
+    </script>
+
+<%--    <script src="js/heatmap_baidu.js"></script>--%>
+    <script type="text/javascript" src="http://api.map.baidu.com/library/Heatmap/2.0/src/Heatmap_min.js"></script>
+
 
     <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
     <script src="js/jquery-3.4.1.min.js"></script>
@@ -43,6 +46,7 @@
     <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
     <![endif]-->
     <script>
+
         //入口函数
         $(function () {
             //总记录数
@@ -61,6 +65,7 @@
             //首次打开页面,加载列表
             search(currentPage);
             //首次打开页面，加载全部热力图的点
+            <%--
             $.get(
                 "${pageContext.request.contextPath}/findJobsServlet",
                 function (allData) {
@@ -81,11 +86,13 @@
 
 
 
-                    var heatmapLayer = new HeatmapOverlay(cfg);//图层
-                    map.addLayer(heatmapLayer);
-                    heatmapLayer.setData(heatmapData);
+                    // var heatmapLayer = new HeatmapOverlay(cfg);//图层
+                    // map.addLayer(heatmapLayer);
+                    // heatmapLayer.setData(heatmapData);
                 }
             );
+--%>
+
 
             //搜索按钮绑定单击事件
             $("#search_btn").click(function () {
@@ -392,11 +399,10 @@
         <!--        地图-->
         <div class="col-md-9" id="col_map">
             <div id="mapid">
-                <div class="mswitch" onclick="switchlayer()" onmouseover="swover()" onmouseout="swout()">
-                    <span style=""><b>卫星</b></span>
-                </div>
+
             </div>
         </div><!--地图end-->
+
         <div class="col-md-3" id="col_tab">
             <div class="container-fluid" id="div_tab">
 

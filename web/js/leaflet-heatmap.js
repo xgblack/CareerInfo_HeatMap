@@ -37,7 +37,7 @@
 
     onAdd: function (map) {
       var size = map.getSize();
-      var h337 = typeof require !== 'undefined' ? require('heatmap.js') : window.h337;
+      var h337 = typeof require !== 'undefined' ? require('web/js/heatmap-origin.js') : window.h337;
 
       this._map = map;
 
