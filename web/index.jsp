@@ -66,7 +66,8 @@
             //首次打开页面,加载列表
             search(currentPage);
             //首次打开页面，加载全部热力图的点
-
+            //优化查询显示性能
+            // TODO
             $.get(
                 "${pageContext.request.contextPath}/findJobsServlet",
                 function (allData) {
@@ -77,9 +78,22 @@
                     //配置
                     var cfg = {
                         "radius": 20,
-                        "maxOpacity": 0.8,
-                        "blur":0.7
+                        "maxOpacity": 0.99,
+                        "minOpacity": 0.55,
+                        "blur":0.95,
+                        "gradient":{
+                            0.03:'rgb(82,159,233)',
+                            0.04:'rgb(14, 246, 243)',
+                            0.059:'rgb(0, 255, 0)',
+                            0.06:'rgb(252, 255, 0)',
+                            0.1:'rgb(255, 92, 10)',
+                            1:'rgb(255, 0, 0)'
+                        }
                     };
+
+                    if(!isSupportCanvas()){
+                        alert('热力图目前只支持有canvas支持的浏览器,您所使用的浏览器不能使用热力图功能~');
+                    }
 
                     heatmapOverlay = new BMapLib.HeatmapOverlay(cfg);
                     map.addOverlay(heatmapOverlay);
@@ -97,9 +111,16 @@
 
             //搜索方法
             function search(currentPage) {
-                if (currentPage == "undefined" || currentPage == null || currentPage == "") {
-                    currentPage = 1;
-                }
+                //调用分页查询
+                pageTurningSearch(currentPage);
+                //生成分页
+                paginationInit(totalCount,totalPage,currentPage,paginationmax);
+
+
+            }
+
+            //翻页查询
+            function pageTurningSearch(currentPage) {
                 $.get("${pageContext.request.contextPath}/findJobsByPage",
                     {
                         currentPage: currentPage,
@@ -150,24 +171,9 @@
                         });
                         $(".thejob").remove();
                         $("#table").append(htmlstr);
-
-                        //当 当前页码为1时，上一页 不可点击
-                        /*if (currentPage == 1) {
-                            $("#li_upPage").prop("class","disabled");
-                        }*/
-                        //当 当前页码为最后一页时，下一页 不可点击
-                        /*if (currentPage == totalPage) {
-                            $("#li_downPage").prop("class","disabled");
-                        }*/
-
-                        //生成分页
-                        paginationInit(totalCount,totalPage,currentPage,paginationmax);
-
                     });
-
-
-
             }
+
 
 
             //凡是带有pagination = pagination_new属性的元素，都会生成分页，这样设计方便一个页面中有多个不同的分页
@@ -179,13 +185,22 @@
 
             //  生成页码
             function initPagination(element,totalCount,totalPage,currentPage,paginationmax){
-                //TODO
-                //当总页数小于最大显示的页码数
-                /*if (totalPage = 0) {
-                    // var content =
-                }*/
-                if(totalPage >= 1 && currentPage <= totalPage && paginationmax <= totalPage){
-                    var content =
+                var content = "";
+                //页码不同情况
+                if (totalPage < 1) {
+                    //没有数据
+                    content = "<ul class='pagination'>" +
+                        "<li value='pre' class='disabled'" +
+                        "a href='javascript:void(0);'>«</a>" +
+                        "</li>" +
+                        "<li value='next' class='disabled'>" +
+                        "<a href='javascript:void(0);'>»</a>" +
+                        "</li>" +
+                        "</ul>";
+
+                }else if (totalPage >= 1 && totalPage < paginationmax) {
+                    //当总页数小于最大显示的页码数(页码一行可以显示)
+                    content =
                         "<ul class='pagination'>" +
                         "<li value='pre'>" +
                         "<a href='javascript:void(0);'>«</a>" +
@@ -202,40 +217,82 @@
                         "<a href='javascript:void(0);'>»</a>" +
                         "</li>" +
                         "</ul>";
-                    $(element).html("");
-                    element.append(content);
 
-                    //页码下方提示信息
-                    $("#label_sinfo").html(totalCount + "条记录，共" + totalPage + "页");
+                }else if(totalPage >= 1 && currentPage <= totalPage && paginationmax <= totalPage){
+                    //当总页数大于最大显示的页码数(页码一行不可以显示，需要隐藏)
+                    content =
+                        "<ul class='pagination'>" +
+                        "<li value='pre'>" +
+                        "<a href='javascript:void(0);'>«</a>" +
+                        "</li>";
+                    for (var i = 0; i < totalPage; i++) {
+                        content +=
+                            "<li value='"+ (i + 1) +"'>" +
+                            "<a href='javascript:void(0);'>" + (i + 1) +
+                            "</a>" +
+                            "</li>"
+                    }
+                    content +=
+                        "<li value='next'>" +
+                        "<a href='javascript:void(0);'>»</a>" +
+                        "</li>" +
+                        "</ul>";
 
-                    //为设置为当前页的页签添加样式active
-                    element.children('ul').children('li[value = '+ currentPage +']').addClass('active');
-                    element.children('ul').children('li').click(clickChange);
-                    element.children('ul').children('li').click(processData);
-                    //显示那几个页签 传入任意li元素即可
-                    // pageShow(element.children('ul').children('li[value = '+ currentPage +']'));
+
                 }else{
                     console.log('分页自定义属性不合理');
                 }
+
+                //先清空
+                element.empty();
+                element.append(content);
+
+                //为设置为当前页的页签添加样式active
+                element.children('ul').children('li[value = '+ currentPage +']').addClass('active');
+                element.children('ul').children('li').click(clickChange);
+                element.children('ul').children('li').click(processData);
+                //显示那几个页签 传入任意li元素即可
+                // pageShow(element.children('ul').children('li[value = '+ currentPage +']'));
+
+                //页码下方提示信息
+                $("#label_sinfo").html(totalCount + "条记录，共" + totalPage + "页");
+
+
+
+
             }
 
             //点击页签时候样式的变化
-            function clickChange(ev) {
+            function clickChange(ev){
                 ev = event || window.event;
+
+                //展示哪些页码
                 pageShow($(ev.target).parent());
 
-                $(ev.target).parent().parent().children('li').each(function (index, item) {
-                    if ($(item).hasClass('active')) {
+
+
+
+                $(ev.target).parent().parent().children('li').each(function(index,item){
+                    if($(item).hasClass('active')){
                         $(item).removeClass('active');
                     }
                 });
 
                 //点击页码页签
                 if($(ev.target).parent().attr('value') != 'pre' && $(ev.target).parent().attr('value') != 'next'){
-                    currentPage = Number($(ev.target).parent().attr('value'))
+                    currentPage = Number($(ev.target).parent().attr('value'));
                     $(ev.target).parent().addClass('active');
-                    $(ev.target).parent().parent().children('li[value = pre]').removeClass('disabled');
-                    $(ev.target).parent().parent().children('li[value = next]').removeClass('disabled');
+                    if (currentPage <= 1) {
+                        $(ev.target).parent().parent().children('li[value = pre]').addClass('disabled');
+                    }else {
+                        $(ev.target).parent().parent().children('li[value = pre]').removeClass('disabled');
+                    }
+                    if (currentPage >= totalPage) {
+                        $(ev.target).parent().parent().children('li[value = next]').addClass('disabled');
+                    } else {
+                        $(ev.target).parent().parent().children('li[value = next]').removeClass('disabled');
+                    }
+
                 //点击上一页页签
                 }else if($(ev.target).parent().attr('value') == 'pre'){
                     currentPage -= 1;
@@ -248,7 +305,7 @@
                         $(ev.target).parent().parent().children('li[value = pre]').removeClass('disabled');
                         $(ev.target).parent().parent().children('li[value = next]').removeClass('disabled');
                     }
-                //点击下一页页签
+//                点击下一页页签
                 }else if($(ev.target).parent().attr('value') == 'next'){
                     currentPage += 1;
                     if(currentPage >= totalPage){
@@ -261,9 +318,7 @@
                         $(ev.target).parent().parent().children('li[value = pre]').removeClass('disabled');
                     }
                 }
-
             }
-
             //展示哪些页码 要用一个实际的分页找规律
             function pageShow(element){
                 if(Number(currentPage) >= 1 && Number(currentPage) <= parseInt(.5 * Number(paginationmax))){
@@ -295,9 +350,8 @@
 
             //页面切换时候的处理函数。比如发ajax根据不同页码获取不同数据展示数据等，用户自行配置。
             function processData(){
-                console.log('当前页码',currentPage);
-            // 用户在这里写页码切换时候的逻辑
-                search(currentPage);
+                //console.log('当前页码',currentPage);
+                pageTurningSearch(currentPage);
             }
 
 

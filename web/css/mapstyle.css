@@ -4,11 +4,11 @@
     box-sizing: border-box;
 }
 body{
-    background-color: #c0c0c0;
+    /*background-color: #c0c0c0;*/
 }
 
 #mapid{
-    height: 1000px;
+    height: 750px;
     margin-left: 20px;
     margin-top: 80px;
     border-radius: 30px;

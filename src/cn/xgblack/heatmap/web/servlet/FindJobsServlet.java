@@ -26,7 +26,7 @@ public class FindJobsServlet extends HttpServlet {
         ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(jobHeatmapDatas);
 
-        System.out.println(json);
+        //System.out.println(json);
 
         response.setContentType("text/html;charset=utf-8");
 
