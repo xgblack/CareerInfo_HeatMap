@@ -29,8 +29,9 @@
         //v2.0版本的引用方式：src="http://api.map.baidu.com/api?v=2.0&ak=您的密钥"
     </script>
 
-<%--    <script src="js/heatmap_baidu.js"></script>--%>
-    <script type="text/javascript" src="http://api.map.baidu.com/library/Heatmap/2.0/src/Heatmap_min.js"></script>
+    <script src="js/heatmap_baidu.js"></script>
+<%--    <script src="js/heatmap-origin.js"--%>
+<%--    <script type="text/javascript" src="http://api.map.baidu.com/library/Heatmap/2.0/src/Heatmap_min.js"></script>--%>
 
 
     <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
@@ -65,7 +66,7 @@
             //首次打开页面,加载列表
             search(currentPage);
             //首次打开页面，加载全部热力图的点
-            <%--
+
             $.get(
                 "${pageContext.request.contextPath}/findJobsServlet",
                 function (allData) {
@@ -75,23 +76,17 @@
                     };
                     //配置
                     var cfg = {
-                        "radius": 0.05,
-                        "maxOpacity": .8,
-                        "scaleRadius": true,
-                        "useLocalExtrema": true,
-                        latField: 'lat',
-                        lngField: 'lon',
-                        valueField: 'minwage'
+                        "radius": 20,
+                        "maxOpacity": 0.8,
+                        "blur":0.7
                     };
 
-
-
-                    // var heatmapLayer = new HeatmapOverlay(cfg);//图层
-                    // map.addLayer(heatmapLayer);
-                    // heatmapLayer.setData(heatmapData);
+                    heatmapOverlay = new BMapLib.HeatmapOverlay(cfg);
+                    map.addOverlay(heatmapOverlay);
+                    heatmapOverlay.setDataSet(heatmapData);
                 }
             );
---%>
+
 
 
             //搜索按钮绑定单击事件

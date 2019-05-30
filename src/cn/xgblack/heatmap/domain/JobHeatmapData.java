@@ -11,16 +11,16 @@ package cn.xgblack.heatmap.domain;
  */
 public class JobHeatmapData {
     private double lat;
-    private double lon;
-    private double minwage;
+    private double lng;
+    private double count;
 
     public JobHeatmapData() {
     }
 
-    public JobHeatmapData(double lat, double lon, double minwage) {
+    public JobHeatmapData(double lat, double lng, double count) {
         this.lat = lat;
-        this.lon = lon;
-        this.minwage = minwage;
+        this.lng = lng;
+        this.count = count;
     }
 
     public double getLat() {
@@ -31,19 +31,19 @@ public class JobHeatmapData {
         this.lat = lat;
     }
 
-    public double getLon() {
-        return lon;
+    public double getLng() {
+        return lng;
     }
 
-    public void setLon(double lon) {
-        this.lon = lon;
+    public void setLng(double lng) {
+        this.lng = lng;
     }
 
-    public double getMinwage() {
-        return minwage;
+    public double getCount() {
+        return count;
     }
 
-    public void setMinwage(double minwage) {
-        this.minwage = minwage;
+    public void setCount(double count) {
+        this.count = count;
     }
 }

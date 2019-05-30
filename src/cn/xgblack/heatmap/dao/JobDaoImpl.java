@@ -31,7 +31,7 @@ public class JobDaoImpl implements JobDao {
     @Override
     public List<JobHeatmapData> findAllJob() {
         //String sql = "SELECT jid,lat,lon,minwage,maxwage FROM job ;";
-        String sql = "SELECT lat,lon,minwage FROM job ;";
+        String sql = "SELECT lat ,lon AS lng,minwage AS count FROM job ;";
 
         try {
             //查询
