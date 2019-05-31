@@ -19,6 +19,9 @@
     <link rel="shortcut icon" href="img/favicon.ico"/>
     <link rel="bookmark" href="img/favicon.ico"/>
 
+    <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+    <script src="js/jquery-3.4.1.min.js"></script>
+
     <!-- Bootstrap -->
     <link rel="stylesheet" href="static/bootstrap-3.3.7-dist/css/bootstrap.css">
 
@@ -29,15 +32,10 @@
         //v2.0版本的引用方式：src="http://api.map.baidu.com/api?v=2.0&ak=您的密钥"
     </script>
 
+
     <script src="js/heatmap_baidu.js"></script>
 <%--    <script src="js/heatmap-origin.js"--%>
 <%--    <script type="text/javascript" src="http://api.map.baidu.com/library/Heatmap/2.0/src/Heatmap_min.js"></script>--%>
-
-
-    <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
-    <script src="js/jquery-3.4.1.min.js"></script>
-
-
 
 
     <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
@@ -65,14 +63,14 @@
             //首次打开页面,加载列表
             $.get("${pageContext.request.contextPath}/findJobsByPage",
                 {
-                    currentPage: currentPage,
+                    currentPage: 1,
                     rows: 10,
                     cname:$("#search_cname").val() ,
                     jname:$("#search_jname").val(),
                     province:$("#search_province").val(),
                     minwage:$("#search_minwage").val()
                 },
-                test = function (data, index) {
+                function (data, index) {
                     totalCount = data["totalCount"];
                     totalPage = data["totalPage"];
                     currentPage = data["currentPage"];
@@ -90,26 +88,30 @@
                         var minwage = value.minwage;
                         //最高工资
                         var maxwage = value.maxwage;
-                        //最低工资 - 最高工资
-                        var wage = minwage + "-" + maxwage;
 
                         //公司省市位置
                         var province = value.province;
+
+                        var lon = value.lon;
+                        var lat = value.lat;
+
                         //职业亮点
                         var highlights = value.highlights;
                         //工作经验要求
                         var erequir = value.erequir;
-                        //公司简介
-                        var cintroduction = value.cintroduction;
-                        //职业描述
-                        var jintroduction = value.jintroduction;
 
-                        htmlstr += '<tr class="thejob">';
-                        htmlstr += '<td>' + (index + 1) + '</td>';
-                        htmlstr += '<td>' + cname + '</td>';
-                        htmlstr += '<td>' + janme + '</td>';
-                        htmlstr += '<td>' + wage + '</td>';
-                        htmlstr += '</tr>';
+                        htmlstr += "<tr class='thejob'>";
+                        htmlstr += "<td>" + (index + 1) + "</td>";
+                        htmlstr += "<td>" + cname + "</td>";
+                        htmlstr += "<td>" + janme + "</td>";
+                        htmlstr += "<td>" + province + "</td>";
+                        //最低工资 - 最高工资
+                        htmlstr += "<td>" + minwage + "-" + maxwage + "</td>";
+                        // htmlstr += "<td class='hidden' id='td_lon'>" + lon + "</td>";
+                        // htmlstr += "<td class='hidden' id='td_lat'>" + lat + "</td>";
+                        // htmlstr += "<td class='hidden' id='td_highlights'>" + highlights + "</td>";
+                        // htmlstr += "<td class='hidden' id='td_erequir'>" + erequir + "</td>";
+                        htmlstr += "</tr>";
                     });
                     $(".thejob").remove();
                     $("#table").append(htmlstr);
@@ -141,8 +143,7 @@
                             0.04:'rgb(14, 246, 243)',
                             0.059:'rgb(0, 255, 0)',
                             0.06:'rgb(252, 255, 0)',
-                            0.1:'rgb(255, 92, 10)',
-                            1:'rgb(255, 0, 0)'
+                            0.1:'rgb(255, 0, 0)'
                         }
                     };
 
@@ -155,19 +156,19 @@
                 }
             );
 
-
-
             //搜索按钮绑定单击事件
             $("#search_btn").click(function () {
-                search(currentPage);
-                refreshPages(totalPage,currentPage)
+                var searchTotalPage = searchJob(currentPage);
+                refreshPages(searchTotalPage,currentPage);
             });
 
-
             //搜索方法
-            function search(currentPage) {
-                $.get("${pageContext.request.contextPath}/findJobsByPage",
-                    {
+            function searchJob(currentPage) {
+                var searchTotalPage = 0;
+                $.ajax({
+                    type:"get",
+                    url:"${pageContext.request.contextPath}/findJobsByPage",
+                    data:{
                         currentPage: currentPage,
                         rows: 10,
                         cname:$("#search_cname").val() ,
@@ -175,7 +176,8 @@
                         province:$("#search_province").val(),
                         minwage:$("#search_minwage").val()
                     },
-                    function (data, index) {
+                    async : false,
+                    success : function(data){
                         totalCount = data["totalCount"];
                         totalPage = data["totalPage"];
                         currentPage = data["currentPage"];
@@ -193,42 +195,48 @@
                             var minwage = value.minwage;
                             //最高工资
                             var maxwage = value.maxwage;
-                            //最低工资 - 最高工资
-                            var wage = minwage + "-" + maxwage;
+
 
                             //公司省市位置
                             var province = value.province;
+                            var lon = value.lon;
+                            var lat = value.lat;
                             //职业亮点
                             var highlights = value.highlights;
                             //工作经验要求
                             var erequir = value.erequir;
-                            //公司简介
-                            var cintroduction = value.cintroduction;
-                            //职业描述
-                            var jintroduction = value.jintroduction;
 
-                            htmlstr += '<tr class="thejob">';
-                            htmlstr += '<td>' + (index + 1) + '</td>';
-                            htmlstr += '<td>' + cname + '</td>';
-                            htmlstr += '<td>' + janme + '</td>';
-                            htmlstr += '<td>' + wage + '</td>';
-                            htmlstr += '</tr>';
+                            htmlstr += "<tr class='thejob'>";
+                            htmlstr += "<td>" + (index + 1) + "</td>";
+                            htmlstr += "<td>" + cname + "</td>";
+                            htmlstr += "<td>" + janme + "</td>";
+                            htmlstr += "<td>" + province + "</td>";
+                            //最低工资 - 最高工资
+                            htmlstr += "<td>" + minwage + "-" + maxwage + "</td>";
+                            // htmlstr += "<td class='hidden' id='td_lon'>" + lon + "</td>";
+                            // htmlstr += "<td class='hidden' id='td_lat'>" + lat + "</td>";
+                            // htmlstr += "<td class='hidden' id='td_highlights'>" + highlights + "</td>";
+                            // htmlstr += "<td class='hidden' id='td_erequir'>" + erequir + "</td>";
+                            htmlstr += "</tr>";
                         });
                         $(".thejob").remove();
                         $("#table").append(htmlstr);
 
+
                         //页码下方提示信息
                         $("#label_sinfo").html(totalCount + "条记录，共" + totalPage + "页");
-
-
-                    });
-
-
+                        searchTotalPage = totalPage;
+                    }
+                });
+                return searchTotalPage;
             }
 
 
 
+
         });
+
+
 
         /**
          * 获取分页
@@ -238,55 +246,103 @@
          */
         function getPagination(totalPage, currentPage){
 
-            var paginationInfo = "<ul class='pagination' >"+
-                "<li><a href='javascript:void(0);' " +
-                " onclick='refreshPages("+totalPage+" , "+(currentPage-1)+
-                ")'"+">«</a></li>";
+            var paginationInfo = "<ul class='pagination .pagination-sm' >";
+            if (currentPage == 1) {
+                paginationInfo += "<li class='disabled'><a href='javascript:void(0);' onclick='refreshPages("+totalPage+" , "+(currentPage-1) + ");searchJob(" + (currentPage-1) + ")'"+">«</a></li>";
+            }else {
+                //前一页
+                paginationInfo += "<li><a href='javascript:void(0);' onclick='refreshPages("+totalPage+" , "+(currentPage-1) + ");searchJob(" + (currentPage-1) + ")'"+">«</a></li>";
+
+            }
 
             if(totalPage<=10){
+                //totalPage<=10
                 for(var i=1; i<=totalPage; i++){
-                    paginationInfo += "<li><a href='javascript:void(0);' onclick='refreshPages(" + totalPage + " , " + i + " );search(" + i + ")'>" + i + " </a></li>";
+                    if (i == currentPage) {
+                        paginationInfo += "<li class='active'> <a href='javascript:void(0);' onclick='refreshPages(" + totalPage + " , " + i + " );searchJob(" + i + ")'>" + i + " </a></li>";
+                    }else {
+                        paginationInfo += "<li><a href='javascript:void(0);' onclick='refreshPages(" + totalPage + " , " + i + " );searchJob(" + i + ")'>" + i + " </a></li>";
+                    }
                 }
             }
             else{
+                //totalPage > 10
                 if(currentPage<=3){
                     for(var i=1; i<=currentPage+2; i++){
-                        paginationInfo += "<li><a href='javascript:void(0);' onclick='refreshPages("+totalPage+" , "+i+");search(\" + i + '>"+i+"</a></li>";
+                        //页码1、2
+                        if (i == currentPage) {
+                            paginationInfo += "<li class='active'> <a href='javascript:void(0);' onclick='refreshPages(" + totalPage + " , " + i + ");searchJob(" + i + ")'>" + i + "</a></li>";
+                        } else {
+                            paginationInfo += "<li > <a href='javascript:void(0);' onclick='refreshPages("+ totalPage + " , " + i + ");searchJob(" + i + ")'>" + i + "</a></li>";
+                        }
                     }
-                    paginationInfo += "<li><a href='#'>...</a></li>";
-                    paginationInfo += "<li><a href='javascript:void(0);' onclick='refreshPages(" + totalPage + " , " + totalPage + ");search(" + totalPage + ")'>" + totalPage + "</a></li>";
+                    paginationInfo += "<li><a href='javascript:void(0);'>...</a></li>";
+                    //最后一页的页码
+                    paginationInfo += "<li><a href='javascript:void(0);' onclick='refreshPages(" + totalPage + " , " + totalPage + ");searchJob(" + totalPage + ")'>" + totalPage + "</a></li>";
                 }else if(currentPage<=totalPage-5){
-                    //TODO
-                    paginationInfo += "<li><a href='javascript:void(0);' onclick='refreshPages("+totalPage+" , "+1+")'>"+1+"</a></li>";
+                    //totalPage > 10   currentPage > 3 currentPage<=totalPage-5，  页码在中间部分
+                    //页码为1的代码
+                    paginationInfo += "<li><a href='javascript:void(0);' onclick='refreshPages("+totalPage+" , "+ 1 +");searchJob(1)'>" + 1 + "</a></li>";
 
-                    paginationInfo += "<li><a href='#'>...</a></li>";
+                    //页码1后面的省略号
+                    paginationInfo += "<li><a href='javascript:void(0);'>...</a></li>";
+
+                    //中间部分代码
                     for(var i=currentPage-1; i<=currentPage+2; i++){
-                        paginationInfo += "<li><a href='javascript:void(0);' onclick='refreshPages("+totalPage+" , "+i+")'>"+i+"</a></li>";
+                        if (i == currentPage) {
+                            paginationInfo += "<li class='active'> <a href='javascript:void(0);' onclick='refreshPages(" + totalPage + " , " + i + ");searchJob(" + i + ")'>" + i + "</a></li>";
+                        } else {
+                            paginationInfo += "<li> <a href='javascript:void(0);' onclick='refreshPages(" + totalPage + " , " + i + ");searchJob(" + i + ")'>" + i + "</a></li>";
+                        }
                     }
-                    paginationInfo += "<li><a href='#'>...</a></li>";
-                    paginationInfo += "<li><a href='javascript:void(0);' onclick='refreshPages("+totalPage+" , "+totalPage+")'>"+totalPage+"</a></li>";
+                    //后面的省略号
+                    paginationInfo += "<li><a href='javascript:void(0);'>...</a></li>";
+                    //最后一个页码
+                    paginationInfo += "<li><a href='javascript:void(0);' onclick='refreshPages("+totalPage+" , "+totalPage+");searchJob(" + totalPage + ")'>"+totalPage+"</a></li>";
                 }else{
-                    paginationInfo += "<li><a href='javascript:void(0);' onclick='refreshPages("+totalPage+" , "+1+")'>"+1+"</a></li>";
-                    paginationInfo += "<li><a href='#'>...</a></li>";
+                    //totalPage > 10  并且currentPage > totalPage-5 显示后面的页码
+
+                    //页码1
+                    paginationInfo += "<li><a href='javascript:void(0);' onclick='refreshPages("+totalPage+" , "+1+");searchJob(1)'>"+1+"</a></li>";
+                    //省略号
+                    paginationInfo += "<li><a href='javascript:void(0);'>...</a></li>";
+                    //最后几位页码
                     for(var i=currentPage-1; i<=totalPage; i++){
-                        paginationInfo += "<li><a href='javascript:void(0);' onclick='refreshPages("+totalPage+" , "+i+")'>"+i+"</a></li>";
+                        if (i == currentPage) {
+                            paginationInfo += "<li class='active'> <a href='javascript:void(0);' onclick='refreshPages("+totalPage+" , "+i+");searchJob(" + i + "'>"+i+"</a></li>";
+                        }else {
+                            paginationInfo += "<li> <a href='javascript:void(0);' onclick='refreshPages("+totalPage+" , "+i+");searchJob(" + i + ")'>"+i+"</a></li>";
+                        }
                     }
                 }
             }
 
-            paginationInfo += "<li><a href='javascript:void(0);' onclick='refreshPages("+totalPage+" , "+(currentPage+1)+")'"+">»</a></li>";
-
+            //下一页
+            if (currentPage == totalPage) {
+                paginationInfo += "<li class='disabled'> <a href='javascript:void(0);' onclick='refreshPages(" + totalPage + " , " + (currentPage + 1) + ");searchJob(" + (currentPage + 1) + ")'" + ">»</a></li>";
+            } else {
+                paginationInfo += "<li><a href='javascript:void(0);' onclick='refreshPages("+totalPage+" , "+(currentPage+1)+");searchJob(" + (currentPage+1) + ")'"+">»</a></li>";
+            }
+            paginationInfo += "</ul>";
+            //返回结果
             return paginationInfo;
         }
 
+        /**
+         * 刷新页码方法
+         * @param totalPage
+         * @param currentPage
+         */
         function refreshPages(totalPage, currentPage) {
 
-            if (currentPage < 1 || currentPage > totalPage) {
-                return;
+            //安全判断
+            if (currentPage < 1 ) {
+                currentPage = 1;
             }
-
+            if (currentPage > totalPage) {
+                currentPage = totalPage;
+            }
             var paginationInfo = getPagination(totalPage, currentPage);
-
             $("#nav_navigation").html(paginationInfo);
 
 
@@ -380,25 +436,26 @@
 <div class="container-fluid">
     <div class="row">
         <!--        地图-->
-        <div class="col-md-9" id="col_map">
+        <div class="col-md-8" id="col_map">
             <div id="mapid">
 
             </div>
         </div><!--地图end-->
 
-        <div class="col-md-3" id="col_tab">
+        <div class="col-md-4" id="col_tab">
             <div class="container-fluid" id="div_tab">
 
 
                 <div class="table-responsive">
                     <table class="table table-condensed table-bordered table-hover" id="table">
                         <tr class="success">
-                            <th colspan="4" class="text-center">全国招聘信息</th>
+                            <th colspan="5" class="text-center">全国招聘信息</th>
                         </tr>
                         <tr class="success">
                             <th class="text-center">序号</th>
                             <th class="text-center">公司名称</th>
                             <th class="text-center">职位名称</th>
+                            <th class="text-center">公司省市</th>
                             <th class="text-center">工资</th>
                         </tr>
 
