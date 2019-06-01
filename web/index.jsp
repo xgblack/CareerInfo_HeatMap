@@ -62,9 +62,9 @@
         //配置
         var cfg = {
             "radius": 20,
-            "maxOpacity": 0.99,
+            "maxOpacity": 1,
             "minOpacity": 0.55,
-            "blur":0.95,
+            // "blur":0.95,
             "gradient":{
                 0.03:'rgb(82,159,233)',
                 0.04:'rgb(14, 246, 243)',
@@ -238,7 +238,8 @@
                         count++;
 
                     });
-                    map.centerAndZoom(new BMap.Point(sumLon/count, sumLat/count), 11);
+                    // map.centerAndZoom(new BMap.Point(sumLon/count, sumLat/count), 11);
+                    map.panTo(new BMap.Point(sumLon/count, sumLat/count));
                     $(".thejob").remove();
                     $("#table").append(htmlstr);
 
@@ -262,6 +263,8 @@
                 var markPoint = new BMap.Point(lon, lat);
                 // 创建标注
                 var marker = new BMap.Marker(markPoint);
+                //跳转到位置
+                map.panTo(markPoint);
                 // 将标注添加到地图中
                 map.addOverlay(marker);
                 //跳动的动画
@@ -440,19 +443,15 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li><a href="#">Link <span class="sr-only">(current)</span></a></li>
-                    <li><a href="#">Link</a></li>
+<%--                    <li><a href="#">Link <span class="sr-only">(current)</span></a></li>--%>
+                    <li><a href="javascript:locationNow()">定位</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                           aria-expanded="false">Dropdown <span class="caret"></span></a>
+                           aria-expanded="false">底图切换 <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="#">Separated link</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="#">One more separated link</a></li>
+                            <li><a href="javascript:changeMapType('BMAP_NORMAL_MAP')">普通街道地图</a></li>
+                            <li><a href="javascript:changeMapType('BMAP_SATELLITE_MAP')">卫星地图</a></li>
+                            <li><a href="javascript:changeMapType('BMAP_HYBRID_MAP')">卫星和路网的混合视图</a></li>
                         </ul>
                     </li>
                 </ul>
