@@ -56,6 +56,8 @@
         //每页记录数，默认为15 （且一般不会更改）
         var rows = 15;
 
+        //存放标记点
+        var myMarker = [];
 
         //入口函数
         $(function () {
@@ -177,7 +179,8 @@
                         //工作经验要求
                         var erequir = value.erequir;
 
-                        htmlstr += "<tr class='thejob'>";
+                        htmlstr += "<tr class='thejob' data-toggle='popover' data-placement='top' data-trigger='hover' data-title='其他信息' data-content='职业亮点："
+                            + highlights + "&工作经验要求："+erequir+"' >";
                         htmlstr += "<td>" + (index + 1) + "</td>";
                         htmlstr += "<td>" + cname + "</td>";
                         htmlstr += "<td>" + janme + "</td>";
@@ -186,8 +189,6 @@
                         htmlstr += "<td>" + minwage + "-" + maxwage + "</td>";
                         htmlstr += "<td class='hidden' id='td_lon' >" + lon + "</td>";
                         htmlstr += "<td class='hidden' id='td_lat'>" + lat + "</td>";
-                        htmlstr += "<td class='hidden' id='td_highlights'>" + highlights + "</td>";
-                        htmlstr += "<td class='hidden' id='td_erequir'>" + erequir + "</td>";
                         htmlstr += "</tr>";
 
                         sumLon += lon;
@@ -205,15 +206,37 @@
                     searchTotalPage = totalPage;
                 }
             });
+            //初始化popover
+            $('[data-toggle="popover"]').popover();
+
             //列表每行绑定单击事件
-            //TODO
+            //刷新列表删除之前添加的点
+            deleteMarker();
             $(".thejob").on('click',function () {
-                alert($(this).children("#td_lon").html()) ;
+                //删除之前添加的点
+                deleteMarker();
+                var lon = $(this).children("#td_lon").html();
+                var lat = $(this).children("#td_lat").html();
+                var markPoint = new BMap.Point(lon, lat);
+                // 创建标注
+                var marker = new BMap.Marker(markPoint);
+                // 将标注添加到地图中
+                map.addOverlay(marker);
+                //跳动的动画
+                marker.setAnimation(BMAP_ANIMATION_BOUNCE);
+                myMarker.push(marker);
+
             });
 
             return searchTotalPage;
         }
 
+        //删除之前添加的点
+        function deleteMarker() {
+            for (i = 0; i <= myMarker.length; i++) {
+                map.removeOverlay(myMarker[i]);
+            }
+        }
 
         /**
          * 获取分页
