@@ -434,7 +434,7 @@
 
                 <%--显示登录信息--%>
                 <c:if test="${not empty user.username}">
-                    <img src="img/XG003.png" width="20px" height="20px" class="navbar-text" title="${user.username}">
+                    <img src="https://qn.img.xgblack.cn/blog/20190601/URLaH4aO4JNh.png" width="20px" height="20px" class="navbar-text" title="${user.username}">
                     <p class="navbar-text"><a href="javascript:void(0);" class="navbar-link"><span class="label label-success">${user.username}</span></a>，欢迎登录</p>
                 </c:if>
 
