@@ -548,7 +548,8 @@
         <nav class="navbar navbar-inverse navbar-default navbar-fixed-bottom" id="nav_bottom">
             <div class="container-fluid">
                 <p class="text-center" id="p_bottom">Copyright © 2019 <a href="https://blog.xgblack.cn"
-                                                                         class="navbar-link">小光&臾离blog</a></p>
+                                                                         class="navbar-link">小光&臾离blog</a><br>苏ICP备18045687号-2</p>
+
 
             </div><!-- /.container-fluid -->
         </nav>
