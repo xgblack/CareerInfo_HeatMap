@@ -53,8 +53,8 @@
         //当前页码
         var currentPage;
 
-        //每页记录数，默认为10 （且一般不会更改）
-        var rows = 10;
+        //每页记录数，默认为15 （且一般不会更改）
+        var rows = 15;
 
 
         //入口函数
@@ -98,10 +98,34 @@
                 }
             );
 
-            //搜索按钮绑定单击事件
+
+            /**
+             * 搜索按钮绑定单击事件
+             */
             $("#search_btn").click(function () {
                 var searchTotalPage = searchJob(1);
                 refreshPages(searchTotalPage,1);
+            });
+
+
+            /**
+             * 跳转按钮绑定单击事件
+             */
+            $("#btn_skipPage").click(function () {
+                var skipCurrentPage = Number($("#inp_skipPage").val());
+                //安全判断
+                if (skipCurrentPage < 1) {
+                    $("#inp_skipPage").val(1);
+                    skipCurrentPage = 1;
+                }
+                //查询
+                var searchTotalPage = searchJob(skipCurrentPage);
+                //安全判断
+                if (skipCurrentPage > searchTotalPage) {
+                    $("#inp_skipPage").val(searchTotalPage);
+                }
+                //刷新页码
+                refreshPages(searchTotalPage,skipCurrentPage);
             });
 
 
@@ -118,7 +142,7 @@
                 url:"${pageContext.request.contextPath}/findJobsByPage",
                 data:{
                     currentPage: currentPage,
-                    rows: 10,
+                    rows: 15,
                     cname:$("#search_cname").val() ,
                     jname:$("#search_jname").val(),
                     province:$("#search_province").val(),
@@ -129,7 +153,7 @@
                     totalCount = data["totalCount"];
                     totalPage = data["totalPage"];
                     currentPage = data["currentPage"];
-                    rows = 10;
+                    rows = 15;
                     var list = data["list"];
 
                     var htmlstr = "";
@@ -186,9 +210,11 @@
                 }
             });
             //列表每行绑定单击事件
+            //TODO
             $(".thejob").on('click',function () {
                 alert($(this).children("#td_lon").html()) ;
             });
+
             return searchTotalPage;
         }
 
