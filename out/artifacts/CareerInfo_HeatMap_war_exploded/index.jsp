@@ -45,82 +45,24 @@
     <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
     <![endif]-->
     <script>
+        //总记录数
+        var totalCount ;
+        //总页码
+        var totalPage ;
+
+        //当前页码
+        var currentPage;
+
+        //每页记录数，默认为10 （且一般不会更改）
+        var rows = 10;
+
 
         //入口函数
         $(function () {
-            //总记录数
-            var totalCount ;
-            //总页码
-            var totalPage ;
-
-            //当前页码
-            var currentPage;
-
-            //每页记录数，默认为10 （且一般不会更改）
-            var rows = 10;
-
 
             //首次打开页面,加载列表
-            $.get("${pageContext.request.contextPath}/findJobsByPage",
-                {
-                    currentPage: 1,
-                    rows: 10,
-                    cname:$("#search_cname").val() ,
-                    jname:$("#search_jname").val(),
-                    province:$("#search_province").val(),
-                    minwage:$("#search_minwage").val()
-                },
-                function (data, index) {
-                    totalCount = data["totalCount"];
-                    totalPage = data["totalPage"];
-                    currentPage = data["currentPage"];
-                    rows = 10;
-                    var list = data["list"];
-
-                    var htmlstr = "";
-                    $.each(list, function (index, value) {
-
-                        //公司名称
-                        var cname = value.cname;
-                        //职位名称
-                        var janme = value.jname;
-                        //最低工资
-                        var minwage = value.minwage;
-                        //最高工资
-                        var maxwage = value.maxwage;
-
-                        //公司省市位置
-                        var province = value.province;
-
-                        var lon = value.lon;
-                        var lat = value.lat;
-
-                        //职业亮点
-                        var highlights = value.highlights;
-                        //工作经验要求
-                        var erequir = value.erequir;
-
-                        htmlstr += "<tr class='thejob'>";
-                        htmlstr += "<td>" + (index + 1) + "</td>";
-                        htmlstr += "<td>" + cname + "</td>";
-                        htmlstr += "<td>" + janme + "</td>";
-                        htmlstr += "<td>" + province + "</td>";
-                        //最低工资 - 最高工资
-                        htmlstr += "<td>" + minwage + "-" + maxwage + "</td>";
-                        // htmlstr += "<td class='hidden' id='td_lon'>" + lon + "</td>";
-                        // htmlstr += "<td class='hidden' id='td_lat'>" + lat + "</td>";
-                        // htmlstr += "<td class='hidden' id='td_highlights'>" + highlights + "</td>";
-                        // htmlstr += "<td class='hidden' id='td_erequir'>" + erequir + "</td>";
-                        htmlstr += "</tr>";
-                    });
-                    $(".thejob").remove();
-                    $("#table").append(htmlstr);
-
-                    //页码下方提示信息
-                    $("#label_sinfo").html(totalCount + "条记录，共" + totalPage + "页");
-
-                    refreshPages(totalPage, currentPage);
-                });
+            var searchTotalPage = searchJob(1);
+            refreshPages(searchTotalPage,1);
 
             //首次打开页面，加载全部热力图的点
             //优化查询显示性能
@@ -162,80 +104,82 @@
                 refreshPages(searchTotalPage,currentPage);
             });
 
-            //搜索方法
-            function searchJob(currentPage) {
-                var searchTotalPage = 0;
-                $.ajax({
-                    type:"get",
-                    url:"${pageContext.request.contextPath}/findJobsByPage",
-                    data:{
-                        currentPage: currentPage,
-                        rows: 10,
-                        cname:$("#search_cname").val() ,
-                        jname:$("#search_jname").val(),
-                        province:$("#search_province").val(),
-                        minwage:$("#search_minwage").val()
-                    },
-                    async : false,
-                    success : function(data){
-                        totalCount = data["totalCount"];
-                        totalPage = data["totalPage"];
-                        currentPage = data["currentPage"];
-                        rows = 10;
-                        var list = data["list"];
 
-                        var htmlstr = "";
-                        $.each(list, function (index, value) {
-
-                            //公司名称
-                            var cname = value.cname;
-                            //职位名称
-                            var janme = value.jname;
-                            //最低工资
-                            var minwage = value.minwage;
-                            //最高工资
-                            var maxwage = value.maxwage;
-
-
-                            //公司省市位置
-                            var province = value.province;
-                            var lon = value.lon;
-                            var lat = value.lat;
-                            //职业亮点
-                            var highlights = value.highlights;
-                            //工作经验要求
-                            var erequir = value.erequir;
-
-                            htmlstr += "<tr class='thejob'>";
-                            htmlstr += "<td>" + (index + 1) + "</td>";
-                            htmlstr += "<td>" + cname + "</td>";
-                            htmlstr += "<td>" + janme + "</td>";
-                            htmlstr += "<td>" + province + "</td>";
-                            //最低工资 - 最高工资
-                            htmlstr += "<td>" + minwage + "-" + maxwage + "</td>";
-                            // htmlstr += "<td class='hidden' id='td_lon'>" + lon + "</td>";
-                            // htmlstr += "<td class='hidden' id='td_lat'>" + lat + "</td>";
-                            // htmlstr += "<td class='hidden' id='td_highlights'>" + highlights + "</td>";
-                            // htmlstr += "<td class='hidden' id='td_erequir'>" + erequir + "</td>";
-                            htmlstr += "</tr>";
-                        });
-                        $(".thejob").remove();
-                        $("#table").append(htmlstr);
-
-
-                        //页码下方提示信息
-                        $("#label_sinfo").html(totalCount + "条记录，共" + totalPage + "页");
-                        searchTotalPage = totalPage;
-                    }
-                });
-                return searchTotalPage;
-            }
 
 
 
 
         });
 
+
+        //搜索方法
+        function searchJob(currentPage) {
+            var searchTotalPage = 0;
+            $.ajax({
+                type:"get",
+                url:"${pageContext.request.contextPath}/findJobsByPage",
+                data:{
+                    currentPage: currentPage,
+                    rows: 10,
+                    cname:$("#search_cname").val() ,
+                    jname:$("#search_jname").val(),
+                    province:$("#search_province").val(),
+                    minwage:$("#search_minwage").val()
+                },
+                async : false,
+                success : function(data){
+                    totalCount = data["totalCount"];
+                    totalPage = data["totalPage"];
+                    currentPage = data["currentPage"];
+                    rows = 10;
+                    var list = data["list"];
+
+                    var htmlstr = "";
+                    $.each(list, function (index, value) {
+
+                        //公司名称
+                        var cname = value.cname;
+                        //职位名称
+                        var janme = value.jname;
+                        //最低工资
+                        var minwage = value.minwage;
+                        //最高工资
+                        var maxwage = value.maxwage;
+
+
+                        //公司省市位置
+                        var province = value.province;
+                        var lon = value.lon;
+                        var lat = value.lat;
+                        //职业亮点
+                        var highlights = value.highlights;
+                        //工作经验要求
+                        var erequir = value.erequir;
+
+                        htmlstr += "<tr class='thejob'>";
+                        htmlstr += "<td>" + (index + 1) + "</td>";
+                        htmlstr += "<td>" + cname + "</td>";
+                        htmlstr += "<td>" + janme + "</td>";
+                        htmlstr += "<td>" + province + "</td>";
+                        //最低工资 - 最高工资
+                        htmlstr += "<td>" + minwage + "-" + maxwage + "</td>";
+                        htmlstr += "<td class='hidden' id='td_lon'>" + lon + "</td>";
+                        htmlstr += "<td class='hidden' id='td_lat'>" + lat + "</td>";
+                        htmlstr += "<td class='hidden' id='td_highlights'>" + highlights + "</td>";
+                        htmlstr += "<td class='hidden' id='td_erequir'>" + erequir + "</td>";
+                        htmlstr += "</tr>";
+                    });
+                    $(".thejob").remove();
+                    $("#table").append(htmlstr);
+
+
+                    //页码下方提示信息
+                    $("#label_sinfo").html(totalCount + "条记录，共" + totalPage + "页");
+                    searchTotalPage = totalPage;
+                }
+            });
+            return searchTotalPage;
+        }
 
 
         /**
