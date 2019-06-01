@@ -3,7 +3,6 @@ package cn.xgblack.heatmap.service;
 import cn.xgblack.heatmap.dao.JobDao;
 import cn.xgblack.heatmap.dao.JobDaoImpl;
 import cn.xgblack.heatmap.domain.Job;
-import cn.xgblack.heatmap.domain.JobHeatmapData;
 import cn.xgblack.heatmap.domain.PageBean;
 
 import java.util.List;
@@ -20,15 +19,6 @@ import java.util.Map;
  */
 public class JobServiceImpl implements JobService {
     private JobDao dao = new JobDaoImpl();
-
-    /**
-     * 直接查找所有Job数据,只包含jid,lat,lon,minwage,maxwage
-     * @return List<Job>
-     */
-    @Override
-    public List<JobHeatmapData> findAllJob() {
-        return dao.findAllJob();
-    }
 
     /**
      *

@@ -67,28 +67,27 @@
             //首次打开页面，加载全部热力图的点
             //优化查询显示性能
             // TODO
+            //配置
+            var cfg = {
+                "radius": 20,
+                "maxOpacity": 0.99,
+                "minOpacity": 0.55,
+                "blur":0.95,
+                "gradient":{
+                    0.03:'rgb(82,159,233)',
+                    0.04:'rgb(14, 246, 243)',
+                    0.059:'rgb(0, 255, 0)',
+                    0.06:'rgb(252, 255, 0)',
+                    0.1:'rgb(255, 0, 0)'
+                }
+            };
             $.get(
-                "${pageContext.request.contextPath}/findJobsServlet",
+                "${pageContext.request.contextPath}/findJobsPoints",
                 function (allData) {
                     var heatmapData = {
                         max : allData.length + 1,
                         data: JSON.parse(allData)
                     };
-                    //配置
-                    var cfg = {
-                        "radius": 20,
-                        "maxOpacity": 0.99,
-                        "minOpacity": 0.55,
-                        "blur":0.95,
-                        "gradient":{
-                            0.03:'rgb(82,159,233)',
-                            0.04:'rgb(14, 246, 243)',
-                            0.059:'rgb(0, 255, 0)',
-                            0.06:'rgb(252, 255, 0)',
-                            0.1:'rgb(255, 0, 0)'
-                        }
-                    };
-
                     if(!isSupportCanvas()){
                         alert('热力图目前只支持有canvas支持的浏览器,您所使用的浏览器不能使用热力图功能~');
                     }
@@ -127,9 +126,6 @@
                 //刷新页码
                 refreshPages(searchTotalPage,skipCurrentPage);
             });
-
-
-
 
         });
 
@@ -354,7 +350,7 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
+                    <li><a href="#">Link <span class="sr-only">(current)</span></a></li>
                     <li><a href="#">Link</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
@@ -374,7 +370,6 @@
                     <li class="active"><a id="search_btn" href="javascript:void(0);">查找</a></li>
                 </ul>
                 <form class="navbar-form navbar-right" id="search_form">
-                    <%--            <button type="submit" class="btn btn-default">Submit</button>--%>
                     <div class="form-group">
                         <label for="search_cname">公司名称</label>
                         <input type="text" class="form-control" id="search_cname" name="cname"
@@ -394,14 +389,12 @@
                         <label for="search_minwage">最低工资</label>
                         <select class="form-control" id="search_minwage" name="minwage">
                             <option>0</option>
+                            <option>3000</option>
                             <option>4000</option>
                             <option>5000</option>
                             <option>6000</option>
                             <option>7000</option>
-                            <option>8000</option>
-                            <option>9000</option>
                             <option>10000</option>
-                            <option>12000</option>
                             <option>15000</option>
                             <option>20000</option>
                             <option>30000</option>
@@ -426,7 +419,6 @@
         <div class="col-md-4" id="col_tab">
             <div class="container-fluid" id="div_tab">
 
-
                 <div class="table-responsive">
                     <table class="table table-condensed table-bordered table-hover" id="table">
                         <tr class="success">
@@ -440,40 +432,14 @@
                             <th class="text-center">工资</th>
                         </tr>
 
-
                     </table>
                 </div>
 
                 <%--页码部分--%>
                 <nav aria-label="Page navigation" id="nav_navigation">
-<%--                    <ul class="pagination">--%>
-<%--                        <li id="li_upPage">--%>
-<%--                            <a href="#" aria-label="Previous">--%>
-<%--                                <span aria-hidden="true">&laquo;</span>--%>
-<%--                            </a>--%>
-<%--                        </li>--%>
-
-<%--                        <li class="active"><a href="#">1</a></li>--%>
-<%--                        <li><a href="#">2</a></li>--%>
-<%--                        <li><a href="#">3</a></li>--%>
-<%--                        <li><a href="#">4</a></li>--%>
-<%--                        <li><a href="#">5</a></li>--%>
-
-<%--                        <li><a href="#">2</a></li>--%>
-<%--                        <li><a href="#">3</a></li>--%>
-<%--                        <li><a href="#">4</a></li>--%>
-<%--                        <li><a href="#">5</a></li>--%>
-<%--                        <li><a href="#">2</a></li>--%>
-<%--                        <li><a href="#">3</a></li>--%>
-
-<%--                        <li id="li_downPage">--%>
-<%--                            <a href="#" aria-label="Next">--%>
-<%--                                <span aria-hidden="true">&raquo;</span>--%>
-<%--                            </a>--%>
-<%--                        </li>--%>
-<%--                    </ul>--%>
 
                 </nav>
+
                 <div class="form-group form-inline">
                     <label for="inp_skipPage" id="label_sinfo">(加载中...)条记录，共(加载中...)页</label>
                     <input type="text" class="form-control" id="inp_skipPage" name="skipPage"

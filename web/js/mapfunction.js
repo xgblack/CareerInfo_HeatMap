@@ -20,6 +20,10 @@ map.setCurrentCity("北京");
 map.enableScrollWheelZoom(true);
 
 
+
+
+
+
 //判断浏览区是否支持canvas
 function isSupportCanvas(){
     var elem = document.createElement('canvas');
