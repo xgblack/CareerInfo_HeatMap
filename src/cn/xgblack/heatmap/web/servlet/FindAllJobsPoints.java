@@ -12,33 +12,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
-@WebServlet(urlPatterns = "/findJobsPoints")
-public class FindJobsPoints extends HttpServlet {
+@WebServlet(urlPatterns = "/findAllJobsPoints")
+public class FindAllJobsPoints extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         JobDataService service = new JobDataServiceImpl();
-
-
-
-
-        //调用JobService方法，查询Job全部数据（不分页）便于展示所有点
-        //List<JobHeatmapData> jobHeatmapDatas = service.findAllJobPonits();
-
-        Map<String, String[]> condition = request.getParameterMap();
-        List<JobHeatmapData> jobHeatmapDatas = service.findSomePoints(condition);
+        List<JobHeatmapData> jobHeatmapDatas = service.findAllJobPonits();
 
         ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(jobHeatmapDatas);
 
-        //System.out.println(json);
 
         response.setContentType("text/html;charset=utf-8");
 
         response.getWriter().write(json);
-
     }
 
     @Override

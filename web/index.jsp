@@ -34,8 +34,6 @@
 
 
     <script src="js/heatmap_baidu.js"></script>
-<%--    <script src="js/heatmap-origin.js"--%>
-<%--    <script type="text/javascript" src="http://api.map.baidu.com/library/Heatmap/2.0/src/Heatmap_min.js"></script>--%>
 
 
     <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
@@ -44,6 +42,7 @@
     <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
     <![endif]-->
+
     <script>
         //总记录数
         var totalCount ;
@@ -58,6 +57,22 @@
 
         //存放标记点
         var myMarker = [];
+        var myHeatMapOverlay = [];
+
+        //配置
+        var cfg = {
+            "radius": 20,
+            "maxOpacity": 0.99,
+            "minOpacity": 0.55,
+            "blur":0.95,
+            "gradient":{
+                0.03:'rgb(82,159,233)',
+                0.04:'rgb(14, 246, 243)',
+                0.059:'rgb(0, 255, 0)',
+                0.06:'rgb(252, 255, 0)',
+                0.1:'rgb(255, 0, 0)'
+            }
+        };
 
         //入口函数
         $(function () {
@@ -65,39 +80,10 @@
             //首次打开页面,加载列表
             var searchTotalPage = searchJob(1);
             refreshPages(searchTotalPage,1);
+            //打开页面，加载全部热力图的点
+            initAllPoints(cfg);
 
-            //首次打开页面，加载全部热力图的点
-            //优化查询显示性能
-            // TODO
-            //配置
-            var cfg = {
-                "radius": 20,
-                "maxOpacity": 0.99,
-                "minOpacity": 0.55,
-                "blur":0.95,
-                "gradient":{
-                    0.03:'rgb(82,159,233)',
-                    0.04:'rgb(14, 246, 243)',
-                    0.059:'rgb(0, 255, 0)',
-                    0.06:'rgb(252, 255, 0)',
-                    0.1:'rgb(255, 0, 0)'
-                }
-            };
-            $.get(
-                "${pageContext.request.contextPath}/findJobsPoints",
-                function (allData) {
-                    var heatmapData = {
-                        max : allData.length + 1,
-                        data: JSON.parse(allData)
-                    };
-                    if(!isSupportCanvas()){
-                        alert('热力图目前只支持有canvas支持的浏览器,您所使用的浏览器不能使用热力图功能~');
-                    }
-                    heatmapOverlay = new BMapLib.HeatmapOverlay(cfg);
-                    map.addOverlay(heatmapOverlay);
-                    heatmapOverlay.setDataSet(heatmapData);
-                }
-            );
+
 
 
             /**
@@ -106,6 +92,7 @@
             $("#search_btn").click(function () {
                 var searchTotalPage = searchJob(1);
                 refreshPages(searchTotalPage,1);
+
             });
 
 
@@ -130,6 +117,61 @@
             });
 
         });
+
+        /**
+         * 初始化页面，列表/热力图
+         */
+        function initAllPoints(cfg) {
+            $.get(
+                "${pageContext.request.contextPath}/findAllJobsPoints",
+                function (allData) {
+                    var heatmapData = {
+                        max : allData.length + 1,
+                        data: JSON.parse(allData)
+                    };
+                    if(!isSupportCanvas()){
+                        alert('热力图目前只支持有canvas支持的浏览器,您所使用的浏览器不能使用热力图功能~');
+                    }
+                    var heatmapOverlay = new BMapLib.HeatmapOverlay(cfg);
+                    map.addOverlay(heatmapOverlay);
+                    heatmapOverlay.setDataSet(heatmapData);
+                    myHeatMapOverlay.push(heatmapOverlay);
+                }
+            );
+        }
+
+
+        /**
+         * 加载部分点的方法
+         * 不可用
+         * 数据量过大时，易造成浏览器卡死
+         */
+        function searchSomePoints(cfg) {
+            $.get(
+                "${pageContext.request.contextPath}/findJobsPoints",
+                {
+                    cname:$("#search_cname").val() ,
+                    jname:$("#search_jname").val(),
+                    province:$("#search_province").val(),
+                    minwage:$("#search_minwage").val()
+                },
+                function (allData) {
+                    var heatmapData = {
+                        max : allData.length + 1,
+                        data: JSON.parse(allData)
+                    };
+                    if(!isSupportCanvas()){
+                        alert('热力图目前只支持有canvas支持的浏览器,您所使用的浏览器不能使用热力图功能~');
+                    }
+                    var heatmapOverlay = new BMapLib.HeatmapOverlay(cfg);
+                    map.addOverlay(heatmapOverlay);
+                    heatmapOverlay.setDataSet(heatmapData);
+
+                    myHeatMapOverlay.push(heatmapOverlay);
+                }
+            );
+        }
+
 
 
         //搜索方法
@@ -175,9 +217,9 @@
                         var lon = value.lon;
                         var lat = value.lat;
                         //职业亮点
-                        var highlights = value.highlights;
+                        var highlights = isEmpty(value.highlights)?"暂无":value.highlights;
                         //工作经验要求
-                        var erequir = value.erequir;
+                        var erequir = isEmpty(value.erequir)?"暂无":value.erequir;
 
                         htmlstr += "<tr class='thejob' data-toggle='popover' data-placement='top' data-trigger='hover' data-title='其他信息' data-content='职业亮点："
                             + highlights + "&工作经验要求："+erequir+"' >";
@@ -211,10 +253,10 @@
 
             //列表每行绑定单击事件
             //刷新列表删除之前添加的点
-            deleteMarker();
+            deleteMyOverlay(myMarker);
             $(".thejob").on('click',function () {
                 //删除之前添加的点
-                deleteMarker();
+                deleteMyOverlay(myMarker);
                 var lon = $(this).children("#td_lon").html();
                 var lat = $(this).children("#td_lat").html();
                 var markPoint = new BMap.Point(lon, lat);
@@ -232,9 +274,9 @@
         }
 
         //删除之前添加的点
-        function deleteMarker() {
-            for (i = 0; i <= myMarker.length; i++) {
-                map.removeOverlay(myMarker[i]);
+        function deleteMyOverlay(obj) {
+            for (i = 0; i <= obj.length; i++) {
+                map.removeOverlay(obj[i]);
             }
         }
 
@@ -346,6 +388,31 @@
             $("#nav_navigation").html(paginationInfo);
 
 
+        }
+
+        /**
+         * 休眠方法
+         * @param n
+         */
+        function sleep(n) {
+
+            var start = new Date().getTime();
+
+            while(true) {
+                if(new Date().getTime()-start > n);
+                break;
+            }
+
+        }
+
+
+        //判断字符是否为空的方法
+        function isEmpty(obj){
+            if(typeof obj == "undefined" || obj == null || obj == ""){
+                return true;
+            }else{
+                return false;
+            }
         }
 
 

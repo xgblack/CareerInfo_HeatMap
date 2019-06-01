@@ -1,12 +1,14 @@
 package cn.xgblack.heatmap.dao;
 
 import cn.xgblack.heatmap.domain.JobHeatmapData;
+import cn.xgblack.heatmap.util.ConditionUtils;
 import cn.xgblack.heatmap.util.JDBCUtils;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author 小光
@@ -48,7 +50,7 @@ public class JobDataDaoImpl implements JobDataDao {
      */
     @Override
     public List<JobHeatmapData> findSomeJob(int start, int eachPoints) {
-        String sql = " lat ,lon AS lng,minwage AS count FROM job  LIMIT ? , ? ;";
+        String sql = "SELECT  lat ,lon AS lng,minwage AS count FROM job  LIMIT ? , ? ;";
         try {
             List<JobHeatmapData> points = template.query(sql, new BeanPropertyRowMapper<>(JobHeatmapData.class), start, eachPoints);
             return points;
@@ -56,4 +58,25 @@ public class JobDataDaoImpl implements JobDataDao {
             return null;
         }
     }
+
+    @Override
+    public List<JobHeatmapData> findSomePoints(Map<String, String[]> condition) {
+        String sql = "SELECT * FROM job WHERE 1 = 1 ";
+
+        StringBuilder sb = new StringBuilder(sql);
+
+        List<Object> params = ConditionUtils.getPagingCondition(sb, condition);
+        sql = sb.toString();
+
+        try {
+            List<JobHeatmapData> points = template.query(sql, new BeanPropertyRowMapper<>(JobHeatmapData.class),params.toArray());
+            return points;
+        } catch (DataAccessException e) {
+            return null;
+        }
+    }
+
+
+
+
 }

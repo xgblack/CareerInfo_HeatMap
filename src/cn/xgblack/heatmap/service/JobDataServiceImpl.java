@@ -5,6 +5,7 @@ import cn.xgblack.heatmap.dao.JobDataDaoImpl;
 import cn.xgblack.heatmap.domain.JobHeatmapData;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author 小光
@@ -39,6 +40,16 @@ public class JobDataServiceImpl implements JobDataService {
         int eachPoint = Integer.parseInt(eachPointsStr);
 
         return dao.findSomeJob(start, eachPoint);
+    }
+
+    /**
+     * 根据查找条件加载热力图点
+     * @param condition 查找条件
+     * @return List<JobHeatmapData>
+     */
+    @Override
+    public List<JobHeatmapData> findSomePoints(Map<String, String[]> condition) {
+        return dao.findSomePoints(condition);
     }
 
 }
