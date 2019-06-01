@@ -100,11 +100,9 @@
 
             //搜索按钮绑定单击事件
             $("#search_btn").click(function () {
-                var searchTotalPage = searchJob(currentPage);
-                refreshPages(searchTotalPage,currentPage);
+                var searchTotalPage = searchJob(1);
+                refreshPages(searchTotalPage,1);
             });
-
-
 
 
 
@@ -135,6 +133,9 @@
                     var list = data["list"];
 
                     var htmlstr = "";
+                    var sumLon = 0;
+                    var sumLat = 0;
+                    var count = 0;
                     $.each(list, function (index, value) {
 
                         //公司名称
@@ -163,12 +164,18 @@
                         htmlstr += "<td>" + province + "</td>";
                         //最低工资 - 最高工资
                         htmlstr += "<td>" + minwage + "-" + maxwage + "</td>";
-                        htmlstr += "<td class='hidden' id='td_lon'>" + lon + "</td>";
+                        htmlstr += "<td class='hidden' id='td_lon' >" + lon + "</td>";
                         htmlstr += "<td class='hidden' id='td_lat'>" + lat + "</td>";
                         htmlstr += "<td class='hidden' id='td_highlights'>" + highlights + "</td>";
                         htmlstr += "<td class='hidden' id='td_erequir'>" + erequir + "</td>";
                         htmlstr += "</tr>";
+
+                        sumLon += lon;
+                        sumLat += lat;
+                        count++;
+
                     });
+                    map.centerAndZoom(new BMap.Point(sumLon/count, sumLat/count), 11);
                     $(".thejob").remove();
                     $("#table").append(htmlstr);
 
@@ -177,6 +184,10 @@
                     $("#label_sinfo").html(totalCount + "条记录，共" + totalPage + "页");
                     searchTotalPage = totalPage;
                 }
+            });
+            //列表每行绑定单击事件
+            $(".thejob").on('click',function () {
+                alert($(this).children("#td_lon").html()) ;
             });
             return searchTotalPage;
         }

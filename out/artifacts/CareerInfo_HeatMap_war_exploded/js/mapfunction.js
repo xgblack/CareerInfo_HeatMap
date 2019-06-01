@@ -4,7 +4,7 @@
 var map = new BMap.Map("mapid");
 
 // 初始化地图,设置中心点坐标和地图级别
-map.centerAndZoom(new BMap.Point(121.480198, 31.235314), 9);
+// map.centerAndZoom(new BMap.Point(121.480198, 31.235314), 9);
 
 //添加地图类型控件
 map.addControl(new BMap.MapTypeControl({
