@@ -24,6 +24,8 @@
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="static/bootstrap-3.3.7-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="css/bootstrap-slider.css">
+    <link rel="stylesheet" href="css/bootstrap-colorpicker.css">
 
     <link rel="stylesheet" href="css/mapstyle.css">
 
@@ -64,7 +66,7 @@
             "radius": 20,
             "maxOpacity": 1,
             "minOpacity": 0.55,
-            // "blur":0.95,
+            "opacity":0,
             "gradient":{
                 0.03:'rgb(82,159,233)',
                 0.04:'rgb(14, 246, 243)',
@@ -90,7 +92,7 @@
             /**
              * 搜索按钮绑定单击事件
              */
-            $("#search_btn").click(function () {
+            $('#search_btn').on('click', function () {
                 var searchTotalPage = searchJob(1);
                 refreshPages(searchTotalPage,1);
                 searchSomePoints(cfg);
@@ -116,6 +118,42 @@
                 //刷新页码
                 refreshPages(searchTotalPage,skipCurrentPage);
             });
+
+            //改变半径方法
+            $('#radius').slider();
+            $("#radius").on("slide", function(slideEvt) {
+                changeRadius(slideEvt.value);
+                $("#radiusSliderVal").text(slideEvt.value);
+            });
+            //改变透明度
+            $('#opacity').slider();
+            $("#opacity").on("slide", function(slideEvt) {
+                changeOpacity(slideEvt.value);
+                $("#opacitySliderVal").text(slideEvt.value);
+            });
+
+
+            // $('.grade').slider();
+            //开启颜色值自定义
+            $('#cp1,#cp2,#cp3,#cp4,#cp5').colorpicker({
+                format: "rgb"
+            });
+
+            //改变颜色值
+            $("#btn_changeGrage").on('click',function () {
+                var grades = [0.03,0.04,0.059,0.06,0.1];
+                var colors = ['rgb(82,159,233)','rgb(14, 246, 243)','rgb(0, 255, 0)','rgb(0, 255, 0)','rgb(255, 0, 0)'];
+                /*$(".grade").each(function (index) {
+                    grades[index] = $(this).val();
+                });*/
+                $(".gradeColor").each(function (index) {
+                    colors[index] = $(this).val();
+                });
+                changeGradient(grades,colors);
+                $('#ChangeGradientModa').modal('hide');
+            });
+
+
 
         });
 
@@ -388,6 +426,38 @@
         }
 
         /**
+         * 方法：改变热力图半径
+         */
+        function changeRadius(radius) {
+            heatmapOverlay.setOptions({"radius": radius});
+        }
+
+        /**
+         * 方法：改变热力图透明度
+         */
+        function changeOpacity(opacity) {
+            heatmapOverlay.setOptions({"opacity": opacity});
+        }
+
+
+        /**
+         * 方法：改变热力图渐变区间
+         */
+        function changeGradient(grades,colors) {
+            var data = {};
+            for (var i = 0; i < grades.length; i++) {
+                data[grades[i]] = colors[i];
+            }
+            heatmapOverlay.setOptions({"gradient":data});
+        }
+        function changeAllOptions(myCfg) {
+            heatmapOverlay.setOptions(myCfg);
+        }
+        function restoreDefault() {
+            heatmapOverlay.setOptions(cfg);
+        }
+
+        /**
          * 休眠方法
          * @param n
          */
@@ -446,6 +516,16 @@
                             <li><a href="javascript:changeMapType('BMAP_NORMAL_MAP')">普通街道地图</a></li>
                             <li><a href="javascript:changeMapType('BMAP_SATELLITE_MAP')">卫星地图</a></li>
                             <li><a href="javascript:changeMapType('BMAP_HYBRID_MAP')">卫星和路网的混合视图</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                           aria-expanded="false">热力图样式自定义 <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="javascript:restoreDefault();">恢复默认</a></li>
+                            <li><a data-toggle="modal" href="#ChangeRadiusModa">更改半径</a></li>
+                            <li><a data-toggle="modal" href="#ChangeOpacityModa">更改透明度</a></li>
+                            <li><a data-toggle="modal" href="#ChangeGradientModa">更改等级色值</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -550,10 +630,105 @@
     </div>
 </div>
 
+
+<!-- Modal -->
+<div class="modal fade" id="ChangeRadiusModa" tabindex="-1" role="dialog" aria-labelledby="ChangeRadiusModa">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="ChangeRadiusModaLabe">改变半径大小</h4>
+            </div>
+            <div class="modal-body">
+                <input id="radius" type="text" data-slider-min="1" data-slider-max="120" data-slider-step="1" data-slider-value="20"/>
+                <span id="radiusCurrentSliderValLabel">当前半径： <span id="radiusSliderVal">20</span></span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">退出</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="ChangeOpacityModa" tabindex="-1" role="dialog" aria-labelledby="ChangeOpacityModa">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="ChangeOpacityModaLabe">改变透明度</h4>
+            </div>
+            <div class="modal-body">
+                <input id="opacity" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0"/>
+                <span id="opacityCurrentSliderValLabel">当前透明度：<span id="opacitySliderVal">默认</span></span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">退出</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ChangeGradientModa" tabindex="-1" role="dialog"
+     aria-labelledby="ChangeRadiusModa" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+
+<%--                <input id="cp1" type="text" class="form-control input-lg"/>--%>
+                <div class="form-inline">
+                    <label>等级一</label>
+<%--                    <input class="grade" type="text" value="0.03">--%>
+<%--                    <input class="grade" type="text" data-slider-min="0" data-slider-max="1" data-slider-step="0.01" data-slider-value="0.03"/>--%>
+                    <span> </span>
+                    <input id="cp1" type="text" class="form-control input-lg gradeColor" value="rgb(82,159,233)"/>
+                </div>
+                <div class="form-inline">
+                    <label>等级二</label>
+<%--                    <input class="grade" type="text"  value="0.04">--%>
+                    <span> </span>
+                    <input id="cp2" type="text" class="form-control input-lg gradeColor" value="rgb(14, 246, 243)"/>
+                </div>
+                <div class="form-inline">
+                    <label>等级三</label>
+<%--                    <input class="grade" type="text"  value="0.04">--%>
+                    <span> </span>
+                    <input id="cp3" type="text" class="form-control input-lg gradeColor" value="rgb(0, 255, 0)"/>
+                </div>
+                <div class="form-inline">
+                    <label>等级四</label>
+<%--                    <input class="grade" type="text"  value="0.04">--%>
+                    <span> </span>
+                    <input id="cp4" type="text" class="form-control input-lg gradeColor" value="rgb(252, 255, 0)"/>
+                </div>
+                <div class="form-inline">
+                    <label>等级五</label>
+<%--                    <input class="grade" type="text"  value="1">--%>
+                    <span> </span>
+                    <input id="cp5" type="text" class="form-control input-lg gradeColor" value="rgb(255, 0, 0)"/>
+                </div>
+            </div>
+<%--            <span>&emsp;&emsp;使用注意：等级不推荐更换</span>--%>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                <button id="btn_changeGrage" type="button" class="btn btn-primary">保存更改</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="js/mapfunction.js"></script>
 
 <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
 <script src="static/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+<script src="js/bootstrap-slider.js"></script>
+<script src="js/bootstrap-colorpicker.js"></script>
 
 </body>
 </html>
