@@ -41,10 +41,15 @@ public class User {
      */
     private Date birthday;
 
+    /**
+     * 头像地址
+     */
+    private String avatar;
+
     public User() {
     }
 
-    public User(int uid, String username, String password, String email, String phone, String gender, Date birthday) {
+    public User(int uid, String username, String password, String email, String phone, String gender, Date birthday, String avatar) {
         this.uid = uid;
         this.username = username;
         this.password = password;
@@ -52,6 +57,7 @@ public class User {
         this.phone = phone;
         this.gender = gender;
         this.birthday = birthday;
+        this.avatar = avatar;
     }
 
     public int getUid() {
@@ -110,6 +116,14 @@ public class User {
         this.birthday = birthday;
     }
 
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -120,6 +134,7 @@ public class User {
                 ", phone='" + phone + '\'' +
                 ", gender='" + gender + '\'' +
                 ", birthday=" + birthday +
+                ", avatar='" + avatar + '\'' +
                 '}';
     }
 }
