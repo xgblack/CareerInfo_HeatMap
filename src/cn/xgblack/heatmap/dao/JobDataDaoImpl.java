@@ -61,7 +61,7 @@ public class JobDataDaoImpl implements JobDataDao {
 
     @Override
     public List<JobHeatmapData> findSomePoints(Map<String, String[]> condition) {
-        String sql = "SELECT * FROM job WHERE 1 = 1 ";
+        String sql = "SELECT lat ,lon AS lng,minwage AS count FROM job WHERE 1 = 1 ";
 
         StringBuilder sb = new StringBuilder(sql);
 

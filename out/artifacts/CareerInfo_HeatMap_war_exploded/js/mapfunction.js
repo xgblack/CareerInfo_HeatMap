@@ -20,6 +20,8 @@ map.enableScrollWheelZoom(true);
 map.enableKeyboard(true);
 
 
+var heatmapOverlay = new BMapLib.HeatmapOverlay(cfg);
+map.addOverlay(heatmapOverlay);
 
 // 设置地图显示的城市 此项是必须设置的
 // map.setCurrentCity("北京");

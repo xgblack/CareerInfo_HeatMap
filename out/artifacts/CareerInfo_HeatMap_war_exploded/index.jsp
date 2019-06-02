@@ -81,7 +81,8 @@
             var searchTotalPage = searchJob(1);
             refreshPages(searchTotalPage,1);
             //打开页面，加载全部热力图的点
-            initAllPoints(cfg);
+            //initAllPoints(cfg);
+            searchSomePoints(cfg);
 
 
 
@@ -92,7 +93,7 @@
             $("#search_btn").click(function () {
                 var searchTotalPage = searchJob(1);
                 refreshPages(searchTotalPage,1);
-
+                searchSomePoints(cfg);
             });
 
 
@@ -119,6 +120,7 @@
         });
 
         /**
+         * 已废弃
          * 初始化页面，列表/热力图
          */
         function initAllPoints(cfg) {
@@ -132,19 +134,14 @@
                     if(!isSupportCanvas()){
                         alert('热力图目前只支持有canvas支持的浏览器,您所使用的浏览器不能使用热力图功能~');
                     }
-                    var heatmapOverlay = new BMapLib.HeatmapOverlay(cfg);
-                    map.addOverlay(heatmapOverlay);
                     heatmapOverlay.setDataSet(heatmapData);
-                    myHeatMapOverlay.push(heatmapOverlay);
                 }
             );
         }
 
 
         /**
-         * 加载部分点的方法
-         * 不可用
-         * 数据量过大时，易造成浏览器卡死
+         * 通过搜索条件,加载部分点的方法
          */
         function searchSomePoints(cfg) {
             $.get(
@@ -163,11 +160,8 @@
                     if(!isSupportCanvas()){
                         alert('热力图目前只支持有canvas支持的浏览器,您所使用的浏览器不能使用热力图功能~');
                     }
-                    var heatmapOverlay = new BMapLib.HeatmapOverlay(cfg);
-                    map.addOverlay(heatmapOverlay);
-                    heatmapOverlay.setDataSet(heatmapData);
 
-                    myHeatMapOverlay.push(heatmapOverlay);
+                    heatmapOverlay.setDataSet(heatmapData);
                 }
             );
         }
