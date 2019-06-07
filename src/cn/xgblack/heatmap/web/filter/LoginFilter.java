@@ -18,7 +18,7 @@ public class LoginFilter implements Filter {
     @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
         HttpServletRequest request = (HttpServletRequest) req;
-//判断是否为登录相关的资源，排除掉css，js等资源
+        //判断是否为登录相关的资源，排除掉css，js等资源
         String requestURI = request.getRequestURI();
         if (
                 requestURI.contains("/login.jsp")||

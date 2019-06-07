@@ -18,7 +18,7 @@
             document.getElementById("form").onsubmit = function () {
                 return checkUsername() && checkPassword() && checkDoublePassword() && checkEmail && checkTel;
             };
-            //给用户名和密码框绑定离焦时间
+            //给输入框绑定离焦时间
             document.getElementById("username").onblur = checkUsername;
             document.getElementById("password").onblur = checkPassword;
             document.getElementById("double_password").onblur = checkDoublePassword;
@@ -191,7 +191,7 @@
         </div>
     </div>
     <div class="rg_right">
-        <p>已有账号?<a href="#">点击登录</a> </p>
+        <p>已有账号?<a href="${pageContext.request.contextPath}/login.jsp">点击登录</a> </p>
     </div>
 </div>
 </body>

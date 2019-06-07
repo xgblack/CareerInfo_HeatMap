@@ -25,7 +25,7 @@ public class JobDaoImpl implements JobDao {
 
 
     /**
-     * 查询总记录数
+     * 根据条件查询满足条件的总记录数
      * @param condition 查询的条件
      * @return totalCount总记录数
      */
