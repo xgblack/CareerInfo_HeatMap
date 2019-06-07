@@ -33,3 +33,8 @@
 #### 主页
 
 ![mark](https://qn.img.xgblack.cn/blog/20190607/uG5KXbRdQfmk.png)
+
+### other
+
+臾离博客：<https://blog.xgblack.cn>
+
