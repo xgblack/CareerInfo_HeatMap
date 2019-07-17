@@ -52,7 +52,7 @@ public class UserDaoImpl implements UserDao {
 
         System.out.println(registerUser);
 
-        String sql = "INSERT INTO user VALUES(null,?,?,?,?,?,?);";
+        String sql = "INSERT INTO user VALUES(null,?,?,?,?,?,?,?);";
 
         //SQL参数
         Object[] params = {
@@ -61,7 +61,8 @@ public class UserDaoImpl implements UserDao {
                 registerUser.getEmail(),
                 registerUser.getPhone(),
                 registerUser.getGender(),
-                registerUser.getBirthday()
+                registerUser.getBirthday(),
+                registerUser.getAvatar()
         };
 
         int rows = template.update(sql, params);

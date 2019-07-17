@@ -16,7 +16,7 @@
         window.onload = function () {
 
             document.getElementById("form").onsubmit = function () {
-                return checkUsername() && checkPassword() && checkDoublePassword() && checkEmail && checkTel;
+                return checkUsername() && checkPassword() && checkDoublePassword() && checkEmail() && checkTel();
             };
             //给输入框绑定离焦时间
             document.getElementById("username").onblur = checkUsername;
