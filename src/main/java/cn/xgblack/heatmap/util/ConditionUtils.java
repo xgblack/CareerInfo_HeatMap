@@ -1,9 +1,6 @@
 package cn.xgblack.heatmap.util;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author 小光
@@ -18,35 +15,36 @@ public class ConditionUtils {
 
     /**
      * 封装方法，获取SQL语句执行所需要的参数
-     * @param sb 存储SQL语句后半部分
      * @param condition 查询条件
      * @return List<Object>SQL语句执行所需要的参数
      */
-    public static List<Object> getPagingCondition(StringBuilder sb, Map<String, String[]> condition){
-        //定义一个集合存储SQL语句的参数
-        List<Object> params = new ArrayList<>();
+    public static Map<String, Object> getSearchCodition(Map<String, String[]> condition){
+        //定义一个map存储真正的查询条件
+        Map<String, Object> pagingCodition = new HashMap<>();
 
-        //遍历map
+        //遍历condition
         Set<String> keySet = condition.keySet();
         for (String key : keySet) {
-            //排除掉分页条件
+            //先排除掉分页条件
             if ("currentPage".equals(key) || "rows".equals(key)) {
                 continue;
             }
-            //获取key对应的值
+
+            //获取有用的key的值
             String value = condition.get(key)[0];
-
-            if ("minwage".equals(key)) {
-                sb.append(" AND " + key + " >= ? ");
-                params.add(value);
-                continue;
-            }
-
             if (value != null && !"".equals(value)) {
-                sb.append(" AND " + key + " LIKE ? ");
-                params.add("%" + value + "%");
+                //将条件存入pagingCodition
+
+                if (!"minwage".equals(key)) {
+                    pagingCodition.put(key,value);
+                } else {
+                    int minwage = Integer.parseInt(value);
+                    if (minwage > 0) {
+                        pagingCodition.put(key, minwage);
+                    }
+                }
             }
         }
-        return params;
+        return pagingCodition;
     }
 }

@@ -22,7 +22,7 @@ public class MyBatisUtils {
         try {
             factory = new SqlSessionFactoryBuilder().build(Resources.getResourceAsStream("SqlMapConfig.xml"));
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("静态初始化代码块异常错误");
             // 静态初始化代码块异常错误
             throw new ExceptionInInitializerError(e);
         }

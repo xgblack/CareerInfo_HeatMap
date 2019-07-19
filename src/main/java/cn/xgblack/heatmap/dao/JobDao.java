@@ -19,15 +19,13 @@ public interface JobDao {
      * @param condition 查询的条件
      * @return totalCount总记录数
      */
-    int findTotalCount(Map<String, String[]> condition);
+    int findTotalCount(Map<String, Object> condition);
 
 
     /**
      * 查询分页的数据
-     * @param start 开始缩阴
-     * @param rows 每页条数
      * @param condition 查询的条件
      * @return List<User>
      */
-    List<Job> findByPage(int start, int rows, Map<String, String[]>condition);
+    List<Job> findByPage(Map<String, Object> condition);
 }
