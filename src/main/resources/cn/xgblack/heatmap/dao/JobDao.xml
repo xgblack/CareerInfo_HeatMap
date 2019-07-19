@@ -3,6 +3,11 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.xgblack.heatmap.dao.JobDao">
+    <resultMap id="jobHeatmapData" type="JobHeatmapData">
+        <result property="lat" column="lat"></result>
+        <result property="lng" column="lon"></result>
+        <result property="count" column="count"></result>
+    </resultMap>
     <sql id="searchCondition" >
         <where>
             <if test="cname != null">
@@ -25,9 +30,27 @@
         <include refid="searchCondition"></include>
     </select>
 
+<!--    查询分页的数据-->
     <select id="findByPage" resultType="cn.xgblack.heatmap.domain.Job">
         SELECT jid,cname,jname,lon,lat,minwage,maxwage,province,highlights,erequir FROM job
         <include refid="searchCondition"></include>
         LIMIT #{start},#{rows}
+    </select>
+
+<!--    直接查找所有Job数据-->
+    <select id="findAllJobPonits" resultMap="jobHeatmapData">
+        SELECT lat ,lon,((minwage + maxwage) / 2 ) AS count FROM job
+    </select>
+
+<!--    根据查找条件加载热力图点    -->
+    <select id="findSomePoints" resultMap="jobHeatmapData" parameterType="map">
+        SELECT lat ,lon,((minwage + maxwage) / 2 ) AS count FROM job
+        <include refid="searchCondition"></include>
+    </select>
+
+<!--    按照索引和条数查询热力图的点-->
+<!--    没有使用-->
+    <select id="findSomeJob" resultType="cn.xgblack.heatmap.domain.JobHeatmapData">
+
     </select>
 </mapper>

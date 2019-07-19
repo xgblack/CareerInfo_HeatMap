@@ -1,5 +1,7 @@
 package cn.xgblack.heatmap.domain;
 
+import lombok.*;
+
 /**
  * @author 小光
  * @date 2019/5/29 20:24
@@ -9,41 +11,15 @@ package cn.xgblack.heatmap.domain;
  * Copyright(C),2018-2019,https://blog.xgblack.cn  .All rights reserved.
  * ***************************************************************************
  */
+@Setter
+@Getter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class JobHeatmapData {
-    private double lat;
-    private double lng;
-    private double count;
+    private Double lat;
+    private Double lng;
+    private Double count;
 
-    public JobHeatmapData() {
-    }
 
-    public JobHeatmapData(double lat, double lng, double count) {
-        this.lat = lat;
-        this.lng = lng;
-        this.count = count;
-    }
-
-    public double getLat() {
-        return lat;
-    }
-
-    public void setLat(double lat) {
-        this.lat = lat;
-    }
-
-    public double getLng() {
-        return lng;
-    }
-
-    public void setLng(double lng) {
-        this.lng = lng;
-    }
-
-    public double getCount() {
-        return count;
-    }
-
-    public void setCount(double count) {
-        this.count = count;
-    }
 }

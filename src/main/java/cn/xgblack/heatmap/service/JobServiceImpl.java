@@ -2,6 +2,7 @@ package cn.xgblack.heatmap.service;
 
 import cn.xgblack.heatmap.dao.JobDao;
 import cn.xgblack.heatmap.domain.Job;
+import cn.xgblack.heatmap.domain.JobHeatmapData;
 import cn.xgblack.heatmap.domain.PageBean;
 import cn.xgblack.heatmap.util.ConditionUtils;
 import cn.xgblack.heatmap.util.MyBatisUtils;
@@ -86,4 +87,44 @@ public class JobServiceImpl implements JobService {
         return pb;
 
     }
+
+
+    /**
+     * 直接查找所有Job数据,只包含jid,lat,lon,minwage,maxwage
+     * @return List<Job>
+     */
+    @Override
+    public List<JobHeatmapData> findAllJobPonits() {
+        return dao.findAllJobPonits();
+    }
+
+    /**
+     * 根据查找条件加载热力图点
+     * @param condition 查找条件
+     * @return List<JobHeatmapData>
+     */
+    @Override
+    public List<JobHeatmapData> findSomePoints(Map<String, String[]> condition) {
+        //搜索条件map
+        Map<String, Object> searchCodition = ConditionUtils.getSearchCodition(condition);
+
+        return dao.findSomePoints(searchCodition);
+    }
+
+    /**
+     * 按照索引和条数查询热力图的点
+     * @param startStr 开始索引
+     * @param eachPointsStr 每次查询热力图点的个数
+     * @return List<JobHeatmapData>
+     */
+    @Override
+    public List<JobHeatmapData> findSomeJob(String startStr, String eachPointsStr) {
+        int start = Integer.parseInt(startStr);
+        int eachPoint = Integer.parseInt(eachPointsStr);
+
+        return dao.findSomeJob(start, eachPoint);
+    }
+
+
+
 }
