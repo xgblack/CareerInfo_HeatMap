@@ -15,8 +15,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
     <title>招聘信息专题热力图系统</title>
-    <link rel="shortcut icon" href="resources/images/favicon.ico"/>
-    <link rel="bookmark" href="resources/images/favicon.ico"/>
+    <link rel="shortcut icon" href="${pageContext.request.contextPath}/favicon.ico"/>
+    <link rel="bookmark" href="${pageContext.request.contextPath}/favicon.ico"/>
 
     <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
     <script src="resources/js/jquery-3.4.1.min.js"></script>

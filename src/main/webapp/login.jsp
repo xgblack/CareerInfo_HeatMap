@@ -11,18 +11,18 @@
 <head>
     <meta charset="UTF-8">
     <title>用户登录</title>
-    <link rel="shortcut icon" href="resources/images/favicon.ico"/>
-    <link rel="bookmark" href="resources/images/favicon.ico"/>
+    <link rel="shortcut icon" href="${pageContext.request.contextPath}/favicon.ico"/>
+    <link rel="bookmark" href="${pageContext.request.contextPath}/favicon.ico"/>
 
     <!-- Bootstrap -->
-    <link rel="stylesheet" href="resources/static/bootstrap-3.3.7-dist/css/bootstrap.css">
-    <link rel="stylesheet" href="resources/css/registlogin.css">
-    <script src="resources/js/jquery-3.4.1.min.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/bootstrap-3.3.7-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/registlogin.css">
+    <script src="${pageContext.request.contextPath}/resources/js/jquery-3.4.1.min.js"></script>
     <script type="text/javascript">
 
         function refreshCode() {
             var vcode = document.getElementById("vcode");
-            vcode.src = "${pageContext.request.contextPath}/checkCodeServlet?time=" + new Date().getTime();
+            vcode.src = "${pageContext.request.contextPath}/checkCode?time=" + new Date().getTime();
         }
     </script>
 </head>
@@ -35,7 +35,7 @@
     <div class="tg_center">
         <div class="rg_form">
                 <div class="container" style="width: 400px;">
-                    <form action="${pageContext.request.contextPath}/loginServlet" method="post">
+                    <form action="${pageContext.request.contextPath}/user/login" method="post">
                         <div class="form-group">
                             <label for="user">用户名：</label>
                             <input type="text" name="username" class="form-control" id="user" placeholder="请输入用户名" required/>
@@ -49,7 +49,7 @@
                         <div class="form-inline">
                             <label for="verifycode">验证码：</label>
                             <input type="text" name="verifycode" class="form-control" id="verifycode" placeholder="请输入验证码" style="width: 120px;" required/>
-                            <a href="javascript:refreshCode()"><img src="${pageContext.request.contextPath}/checkCodeServlet" title="看不清点击刷新" id="vcode"/></a>
+                            <a href="javascript:refreshCode()"><img src="${pageContext.request.contextPath}/checkCode" title="看不清点击刷新" id="vcode"/></a>
                         </div>
                         <hr/>
                         <div class="form-group" style="text-align: center;">
@@ -70,10 +70,10 @@
         </div>
     </div>
     <div class="rg_right">
-        <p>没有账号?<a href="regist.jsp">点击注册</a></p>
+        <p>没有账号?<a href="${pageContext.request.contextPath}/regist.jsp">点击注册</a></p>
     </div>
 </div>
 <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
-<script src="resources/static/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+<script src="${pageContext.request.contextPath}/resources/static/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
 </body>
 </html>

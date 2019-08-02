@@ -14,6 +14,14 @@ import java.util.List;
  */
 @Repository
 public interface UserDao {
+
+    /**
+     * 根据用户名查找用户
+     * @param username 用户名
+     * @return List<User>
+     */
+    List<User> findUserByUsername(String username);
+
     /**
      * 通过用户名密码查询用户
      * @param loginUser
@@ -27,13 +35,6 @@ public interface UserDao {
      * @return rows操作数据库的条数（期望其为1）
      */
     boolean insertNewUser(User registerUser);
-
-    /**
-     * 根据用户名查找用户
-     * @param username 用户名
-     * @return List<User>
-     */
-    List<User> findUserByUsername(String username);
 
 
 }

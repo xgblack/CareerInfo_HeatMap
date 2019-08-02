@@ -26,7 +26,7 @@ import java.util.Set;
  * Copyright(C),2018-2019,https://blog.xgblack.cn  .All rights reserved.
  * ***************************************************************************
  */
-@Service
+@Service("jobService")
 @Transactional(propagation = Propagation.SUPPORTS)
 public class JobServiceImpl implements JobService {
 

@@ -11,6 +11,14 @@ import cn.xgblack.heatmap.entity.User;
  * description:
  */
 public interface UserService {
+
+    /**
+     * 查看用户名是否已经被注册
+     * @param username  用户名
+     * @return boolean  是否已经存在
+     */
+    boolean usernameIsExist(String username);
+
     /**
      * 验证用户登录方法
      * @param loginUser 根据用户输入的用户名密码封装的user对象（不一定是否正确）
@@ -26,11 +34,5 @@ public interface UserService {
      */
     boolean regist(User registerUser);
 
-    /**
-     * 查看用户名是否已经被注册
-     * @param registerUser  根据用户输入，封装的user对象
-     * @return boolean  是否已经存在
-     */
-    boolean usernameIsExist(User registerUser);
 
 }

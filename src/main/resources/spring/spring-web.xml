@@ -17,7 +17,7 @@
     <context:component-scan base-package="cn.xgblack.heatmap.web"/>
 
     <!-- 激活组件扫描功能,扫描aop的相关组件 -->
-    <!--    <context:component-scan base-package="cn.xgblack.heatmap.aop"/>-->
+    <context:component-scan base-package="cn.xgblack.heatmap.aop"/>
 
     <!--视图解析器-->
     <!--配置JSP　显示ViewResolver-->
@@ -36,27 +36,22 @@
     -->
     <mvc:annotation-driven/>
 
-
-
-    <!-- 启动对@AspectJ注解的支持 -->
-    <aop:aspectj-autoproxy proxy-target-class="true" />
-
-
-
     <!--静态资源默认servlet配置
-    	1、加入对静态资源的处理:js,css,gif,png
-    	2、允许使用"/"做整体映射
-    -->
-<!--    <mvc:default-servlet-handler/>-->
+            1、加入对静态资源的处理:js,css,gif,png
+            2、允许使用"/"做整体映射
+        -->
+        <mvc:default-servlet-handler/>
 
     <!--两种方法选一个-->
 
     <!--前端控制器，哪些静态资源不拦截-->
-    <mvc:resources location="/resources/css/" mapping="resources/css/**"/>
-    <mvc:resources location="/resources/images/" mapping="/images/**"/>
-    <mvc:resources location="/resources/js/" mapping="/resources/js/**"/>
+<!--    <mvc:resources location="/resources/css/" mapping="/resources/css/**"/>-->
+<!--    <mvc:resources location="/resources/images/" mapping="/resources/images/**"/>-->
+<!--    <mvc:resources location="/resources/js/" mapping="/resources/js/**"/>-->
+<!--    <mvc:resources location="/resources/static/" mapping="/resources/static/**"/>-->
 
-
+    <!-- 启动对@AspectJ注解的支持 -->
+    <aop:aspectj-autoproxy proxy-target-class="true" />
 
 
     <!--全局异常捕捉 -->

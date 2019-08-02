@@ -5,6 +5,8 @@ import cn.xgblack.heatmap.entity.User;
 import cn.xgblack.heatmap.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -17,11 +19,26 @@ import java.util.List;
  * Copyright(C),2018-2019,https://blog.xgblack.cn  .All rights reserved.
  * ***************************************************************************
  */
-@Service
+@Service("userService")
 public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDao dao ;
+
+    /**
+     * 查看用户名是否已经被注册
+     * @param username  根据用户输入，封装的user对象
+     * @return boolean  是否已经存在
+     */
+    @Override
+    public boolean usernameIsExist(String username) {
+        List<User> users = dao.findUserByUsername(username);
+        if (users.size() == 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 
     @Override
     public User login(User loginUser) {
@@ -35,20 +52,11 @@ public class UserServiceImpl implements UserService {
      * @return boolean 注册是否成功
      */
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public boolean regist(User registerUser) {
         //操作的数据库行数
         return dao.insertNewUser(registerUser);
 
-
     }
 
-    @Override
-    public boolean usernameIsExist(User registerUser) {
-        List<User> users = dao.findUserByUsername(registerUser.getUsername());
-        if (users.size() == 0) {
-            return false;
-        } else {
-            return true;
-        }
-    }
 }

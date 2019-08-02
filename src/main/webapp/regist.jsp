@@ -11,7 +11,10 @@
 <head>
     <meta charset="UTF-8">
     <title>用户注册</title>
-    <link rel="stylesheet" href="resources/css/registlogin.css">
+    <link rel="shortcut icon" href="${pageContext.request.contextPath}/favicon.ico"/>
+    <link rel="bookmark" href="${pageContext.request.contextPath}/favicon.ico"/>
+
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/registlogin.css">
     <script>
         window.onload = function () {
 
@@ -38,10 +41,10 @@
             var s_username = document.getElementById("s_username");
             if (flag) {
                 //合格
-                s_username.innerHTML = "<img width='25' height='25' src='resources/images/right.png'/>"
+                s_username.innerHTML = "<img width='25' height='25' src='${pageContext.request.contextPath}/resources/images/right.png'/>"
             }else {
                 //格式错误
-                s_username.innerHTML = "<img width='25' height='25' src='resources/images/error.png'/>6-12位，字母、数字、下划线"
+                s_username.innerHTML = "<img width='25' height='25' src='${pageContext.request.contextPath}/resources/images/error.png'/>6-12位，字母、数字、下划线"
             }
             return flag;
         }
@@ -58,10 +61,10 @@
             var s_password = document.getElementById("s_password");
             if (flag) {
                 //合格
-                s_password.innerHTML = "<img width='25' height='25' src='resources/images/right.png'/>"
+                s_password.innerHTML = "<img width='25' height='25' src='${pageContext.request.contextPath}/resources/images/right.png'/>"
             }else {
                 //格式错误
-                s_password.innerHTML = "<img width='25' height='25' src='resources/images/error.png'/>6-12位，字母、数字、下划线"
+                s_password.innerHTML = "<img width='25' height='25' src='${pageContext.request.contextPath}/resources/images/error.png'/>6-12位，字母、数字、下划线"
             }
             return flag;
         }
@@ -74,10 +77,10 @@
             var flag = password == doublePassword;
             if (flag) {
                 //合格
-                s_doublepassword.innerHTML = "<img width='25' height='25' src='resources/images/right.png'/>";
+                s_doublepassword.innerHTML = "<img width='25' height='25' src='${pageContext.request.contextPath}/resources/images/right.png'/>";
             } else {
                 //两次密码不一致
-                s_doublepassword.innerHTML = "<img width='25' height='25' src='resources/images/error.png'/>两次密码不一致";
+                s_doublepassword.innerHTML = "<img width='25' height='25' src='${pageContext.request.contextPath}/resources/images/error.png'/>两次密码不一致";
             }
             return flag;
         }
@@ -88,10 +91,10 @@
             var flag = reg_email.test(email);
             if (flag) {
                 //邮箱合格
-                s_email.innerHTML = "<img width='25' height='25' src='resources/images/right.png'/>";
+                s_email.innerHTML = "<img width='25' height='25' src='${pageContext.request.contextPath}/resources/images/right.png'/>";
             } else {
                 //两次密码不一致
-                s_email.innerHTML = "<img width='25' height='25' src='resources/images/error.png'/>邮箱格式不正确";
+                s_email.innerHTML = "<img width='25' height='25' src='${pageContext.request.contextPath}/resources/images/error.png'/>邮箱格式不正确";
             }
             return flag;
         }
@@ -102,16 +105,16 @@
             var flag = reg_tel.test(tel);
             if (flag) {
                 //邮箱合格
-                s_tel.innerHTML = "<img width='25' height='25' src='resources/images/right.png'/>";
+                s_tel.innerHTML = "<img width='25' height='25' src='${pageContext.request.contextPath}/resources/images/right.png'/>";
             } else {
                 //两次密码不一致
-                s_tel.innerHTML = "<img width='25' height='25' src='resources/images/error.png'/>手机号格式不正确";
+                s_tel.innerHTML = "<img width='25' height='25' src='/resources/images/error.png'/>手机号格式不正确";
             }
             return flag;
         }
         function refreshCode() {
             var vcode = document.getElementById("vcode");
-            vcode.src = "${pageContext.request.contextPath}/checkCodeServlet?time=" + new Date().getTime();
+            vcode.src = "${pageContext.request.contextPath}/checkCode?time=" + new Date().getTime();
         }
     </script>
 </head>
@@ -123,7 +126,7 @@
     </div>
     <div class="rg_center">
         <div class="rg_form">
-            <form id="form" action="${pageContext.request.contextPath}/registerServlet" method="post">
+            <form id="form" action="${pageContext.request.contextPath}/user/register" method="post">
                 <table>
                     <tr>
                         <td class="td_left"><lable for="username">用户名</lable></td>
@@ -176,7 +179,7 @@
                         <td class="td_left"><lable for="checkcode">验证码</lable></td>
                         <td class="td_right">
                             <input type="text" name="verifycode" id="checkcode" placeholder="请输入验证码" required>
-                            <a href="javascript:refreshCode()"><img src="${pageContext.request.contextPath}/checkCodeServlet" title="看不清点击刷新" id="vcode"/></a>
+                            <a href="javascript:refreshCode()"><img src="${pageContext.request.contextPath}/checkCode" title="看不清点击刷新" id="vcode"/></a>
                         </td>
                     </tr>
                     <tr>
