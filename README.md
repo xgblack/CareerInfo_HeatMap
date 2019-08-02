@@ -1,6 +1,6 @@
-### 热力图展示系统（招聘信息）
+## 招聘信息热力图展示系统
 
-####  简介
+###  简介
 
 &emsp;&emsp;​自定义专题类型，搜集专题数据，以热力图形式展示专题效果。热力图：以特殊高亮的形式显示访客热衷的页面区域和访客所在的地理区域的图示。
 
@@ -8,13 +8,17 @@
 
 &emsp;&emsp;在热力图展示基础上，仍然保留百度地图基础功能。
 
+### 更新
+
+&emsp;&emsp;这个项目伴随着我的学习进度，在不停的改造，目前已经更换了两次架构，Spring+SpringMVC+Mybatis框架，使用Druid连接池等
+
 ### 界面：
 
 #### 注册页面
 
 - 注册默认样式
 
-  ![mark](https://qn.img.xgblack.cn/blog/20190607/iGYh01UxNd0m.png)
+  ![mark](https://qn.img.xgblack.cn/blog/20190802/8U6aa2rc4rKt.png)
 
 - 注册输入格式错误信息提示
 
@@ -32,7 +36,7 @@
 
 #### 主页
 
-![mark](https://qn.img.xgblack.cn/blog/20190607/uG5KXbRdQfmk.png)
+![mark](https://qn.img.xgblack.cn/blog/20190802/7agN2CSqTThd.png)
 
 ### other
 
