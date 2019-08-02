@@ -52,8 +52,9 @@
 
     <!-- 启动对@AspectJ注解的支持 -->
     <aop:aspectj-autoproxy proxy-target-class="true" />
+    
 
-
+    
     <!--全局异常捕捉 -->
     <!--<bean class="xxxxExceptionResolver" />-->
 </beans>

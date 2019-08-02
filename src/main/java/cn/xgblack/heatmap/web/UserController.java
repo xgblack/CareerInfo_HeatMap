@@ -20,8 +20,35 @@ public class UserController {
     @Autowired
     private UserService service;
 
-
+    /**
+     * 跳转注册页面
+     * @return 注册
+     */
     @RequestMapping("/register")
+    public String toRegister(){
+        return "user/regist";
+    }
+
+    /**
+     * 跳转登录页面
+     * @return 登录
+     */
+    @RequestMapping("/login")
+    public String toLogin(){
+        return "user/login";
+    }
+
+    /**
+     * 注册验证
+     * @param request 请求
+     * @param response 响应
+     * @param session 会话
+     * @param verifycode 验证码
+     * @param registerUser 注册用户信息
+     * @throws ServletException 异常//TODO
+     * @throws IOException 异常//TODO
+     */
+    @RequestMapping("/registerCheck")
     public void register(HttpServletRequest request, HttpServletResponse response, HttpSession session , String verifycode , User registerUser) throws ServletException, IOException {
 
         //获取生成的验证码
@@ -35,7 +62,7 @@ public class UserController {
 
             //验证码不对，存储错误信息，并跳转
             request.setAttribute("regist_msg","验证码输入错误！");
-            request.getRequestDispatcher("/regist.jsp").forward(request,response);
+            request.getRequestDispatcher("/user/register").forward(request,response);
 
             //结束方法
             return;
@@ -46,7 +73,7 @@ public class UserController {
         if (service.usernameIsExist(registerUser.getUsername())) {
             //用户名已存在
             request.setAttribute("regist_msg", "用户名已存在");
-            request.getRequestDispatcher("/regist.jsp").forward(request, response);
+            request.getRequestDispatcher("/user/register").forward(request, response);
 
             return;
         }
@@ -54,16 +81,26 @@ public class UserController {
         if (service.regist(registerUser)) {
             //注册成功
             request.setAttribute("login_msg", "注册成功，请登录");
-            request.getRequestDispatcher("/login.jsp").forward(request, response);
+            request.getRequestDispatcher("/user/login").forward(request, response);
         } else {
             //注册失败
             request.setAttribute("regist_msg", "注册失败，请重试");
-            request.getRequestDispatcher("/regist.jsp").forward(request, response);
+            request.getRequestDispatcher("/user/register").forward(request, response);
         }
 
     }
 
-    @RequestMapping("/login")
+    /**
+     * 登录验证
+     * @param request 请求
+     * @param response 响应
+     * @param session 会话
+     * @param verifycode 验证码
+     * @param loginUser 登录用户信息
+     * @throws ServletException //TODO
+     * @throws IOException //TODO
+     */
+    @RequestMapping("/loginCheck")
     public void login(HttpServletRequest request,HttpServletResponse response,HttpSession session, String verifycode ,User loginUser) throws ServletException, IOException {
 
         //获取生成的验证码
@@ -77,7 +114,7 @@ public class UserController {
 
             //验证码不对，存储错误信息，并跳转
             request.setAttribute("login_msg","验证码输入错误！");
-            request.getRequestDispatcher("/login.jsp").forward(request,response);
+            request.getRequestDispatcher("/user/login").forward(request,response);
 
             //结束方法
             return;
@@ -88,12 +125,12 @@ public class UserController {
         if (user == null) {
             //用户名或密码错误
             request.setAttribute("login_msg","用户名或密码错误");
-            request.getRequestDispatcher("/login.jsp").forward(request,response);
+            request.getRequestDispatcher("/user/login").forward(request,response);
         }else {
             //登陆成功
             session.setAttribute("user",user);
             //跳转页面（直接重定向）
-            response.sendRedirect(request.getContextPath() + "/index.jsp");
+            response.sendRedirect(request.getContextPath());
         }
 
     }

@@ -61,6 +61,10 @@ SELECT * FROM job LIMIT 5,15;
 
 SELECT COUNT(*) FROM job WHERE 1 = 1;
 
+SELECT COUNT(*) FROM job WHERE  minwage >= 3000 AND jname LIKE '%java%' AND province LIKE '%北京%';
+
+SELECT * FROM job WHERE cname LIKE '%无数据%';
+
 SELECT * FROM job WHERE 1 = 1 AND minwage >= 4000 AND jname LIKE '%java%';
 
 SELECT * FROM job WHERE 1 = 1  AND jname LIKE '%python%';
@@ -75,5 +79,6 @@ SELECT lat ,lon AS lng,minwage AS count FROM job WHERE 1 = 1 AND province LIKE '
 
 SELECT jid,lat,lon,minwage,maxwage FROM job LIMIT 12,10;
 
-
-	
+SELECT lat ,lon,((minwage + maxwage) / 2 ) AS count
+ FROM job
+ WHERE cname LIKE CONCAT('%','无数据','%') AND jname LIKE CONCAT('%','','%') AND province LIKE CONCAT('%','','%');

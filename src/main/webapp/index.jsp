@@ -19,14 +19,14 @@
     <link rel="bookmark" href="${pageContext.request.contextPath}/favicon.ico"/>
 
     <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
-    <script src="resources/js/jquery-3.4.1.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/jquery-3.4.1.min.js"></script>
 
     <!-- Bootstrap -->
-    <link rel="stylesheet" href="resources/static/bootstrap-3.3.7-dist/css/bootstrap.css">
-    <link rel="stylesheet" href="resources/css/bootstrap-slider.css">
-    <link rel="stylesheet" href="resources/css/bootstrap-colorpicker.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/bootstrap-3.3.7-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap-slider.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap-colorpicker.css">
 
-    <link rel="stylesheet" href="resources/css/mapstyle.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mapstyle.css">
 
 
     <script type="text/javascript" src="https://api.map.baidu.com/api?v=3.0&ak=zKfGbrgNomYkFrUEy8a09Tw1PLudhUnU">
@@ -34,7 +34,7 @@
     </script>
 
 
-    <script src="resources/js/heatmap_baidu.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/heatmap_baidu.js"></script>
 
 
     <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
@@ -66,13 +66,13 @@
             "maxOpacity": 1,
             "minOpacity": 0.55,
             "opacity":0,
-            "gradient":{
+            /*"gradient":{
                 0.03:'rgb(82,159,233)',
                 0.04:'rgb(14, 246, 243)',
                 0.059:'rgb(0, 255, 0)',
                 0.06:'rgb(252, 255, 0)',
                 0.1:'rgb(255, 0, 0)'
-            }
+            }*/
         };
 
         //入口函数
@@ -81,8 +81,7 @@
             //首次打开页面,加载列表
             var searchTotalPage = searchJob(1);
             refreshPages(searchTotalPage,1);
-            //打开页面，加载全部热力图的点
-            //initAllPoints(cfg);
+            //打开页面，热力图的点
             searchSomePoints(cfg);
 
 
@@ -156,33 +155,13 @@
 
         });
 
-        /**
-         * 已废弃
-         * 初始化页面，列表/热力图
-         */
-        function initAllPoints(cfg) {
-            $.get(
-                "${pageContext.request.contextPath}/findAllJobsPoints",
-                function (allData) {
-                    var heatmapData = {
-                        max : allData.length + 1,
-                        data: JSON.parse(allData)
-                    };
-                    if(!isSupportCanvas()){
-                        alert('热力图目前只支持有canvas支持的浏览器,您所使用的浏览器不能使用热力图功能~');
-                    }
-                    heatmapOverlay.setDataSet(heatmapData);
-                }
-            );
-        }
-
 
         /**
          * 通过搜索条件,加载部分点的方法
          */
         function searchSomePoints(cfg) {
             $.get(
-                "${pageContext.request.contextPath}/findJobsPoints",
+                "${pageContext.request.contextPath}/heatmap/findJobsPoints",
                 {
                     cname:$("#search_cname").val() ,
                     jname:$("#search_jname").val(),
@@ -192,7 +171,7 @@
                 function (allData) {
                     var heatmapData = {
                         max : allData.length + 1,
-                        data: JSON.parse(allData)
+                        data: allData
                     };
                     if(!isSupportCanvas()){
                         alert('热力图目前只支持有canvas支持的浏览器,您所使用的浏览器不能使用热力图功能~');
@@ -210,7 +189,7 @@
             var searchTotalPage = 0;
             $.ajax({
                 type:"get",
-                url:"${pageContext.request.contextPath}/findJobsByPage",
+                url:"${pageContext.request.contextPath}/job/findJobs",
                 data:{
                     currentPage: currentPage,
                     rows: 15,
@@ -220,6 +199,7 @@
                     minwage:$("#search_minwage").val()
                 },
                 async : false,
+                contentType : 'application/json;charset=utf-8',
                 success : function(data){
                     totalCount = data["totalCount"];
                     totalPage = data["totalPage"];
@@ -614,13 +594,13 @@
     </div>
 </div>
 
-<script src="resources/js/mapfunction.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/mapfunction.js"></script>
 
 <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
-<script src="resources/static/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
-<script src="resources/js/bootstrap-paging.js"></script>
-<script src="resources/js/bootstrap-slider.js"></script>
-<script src="resources/js/bootstrap-colorpicker.js"></script>
+<script src="${pageContext.request.contextPath}/resources/static/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/bootstrap-paging.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/bootstrap-slider.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/bootstrap-colorpicker.js"></script>
 
 </body>
 </html>

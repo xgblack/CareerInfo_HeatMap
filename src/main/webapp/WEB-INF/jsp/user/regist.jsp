@@ -126,7 +126,7 @@
     </div>
     <div class="rg_center">
         <div class="rg_form">
-            <form id="form" action="${pageContext.request.contextPath}/user/register" method="post">
+            <form id="form" action="${pageContext.request.contextPath}/user/registerCheck" method="post">
                 <table>
                     <tr>
                         <td class="td_left"><lable for="username">用户名</lable></td>
@@ -194,7 +194,7 @@
         </div>
     </div>
     <div class="rg_right">
-        <p>已有账号?<a href="${pageContext.request.contextPath}/login.jsp">点击登录</a> </p>
+        <p>已有账号?<a href="${pageContext.request.contextPath}/user/login">点击登录</a> </p>
     </div>
 </div>
 </body>

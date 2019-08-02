@@ -35,7 +35,7 @@
     <div class="tg_center">
         <div class="rg_form">
                 <div class="container" style="width: 400px;">
-                    <form action="${pageContext.request.contextPath}/user/login" method="post">
+                    <form action="${pageContext.request.contextPath}/user/loginCheck" method="post">
                         <div class="form-group">
                             <label for="user">用户名：</label>
                             <input type="text" name="username" class="form-control" id="user" placeholder="请输入用户名" required/>
@@ -70,7 +70,7 @@
         </div>
     </div>
     <div class="rg_right">
-        <p>没有账号?<a href="${pageContext.request.contextPath}/regist.jsp">点击注册</a></p>
+        <p>没有账号?<a href="${pageContext.request.contextPath}/user/register">点击注册</a></p>
     </div>
 </div>
 <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->

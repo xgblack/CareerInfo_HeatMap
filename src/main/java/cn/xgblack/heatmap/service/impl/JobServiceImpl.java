@@ -3,19 +3,15 @@ package cn.xgblack.heatmap.service.impl;
 import cn.xgblack.heatmap.dao.JobDao;
 import cn.xgblack.heatmap.dto.JobHeatmapData;
 import cn.xgblack.heatmap.dto.PageBean;
+import cn.xgblack.heatmap.dto.SearchCondition;
 import cn.xgblack.heatmap.entity.Job;
 import cn.xgblack.heatmap.service.JobService;
-import cn.xgblack.heatmap.util.ConditionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * @author 小光
@@ -35,33 +31,32 @@ public class JobServiceImpl implements JobService {
 
     /**
      *
-     * @param currentPageStr 当前页码
-     * @param rowsStr 每页显示条数
      * @param condition 分页+查询的条件
      * @return PageBean<User>
      */
     @Override
-    public PageBean<Job> findJobByPage(String currentPageStr, String rowsStr, Map<String, String[]>condition) {
+    public PageBean<Job> findJobByPage(SearchCondition condition) {
 
-        //搜索条件map
-        Map<String, Object> searchCodition = ConditionUtils.getSearchCodition(condition);
 
         //当前页码
-        int currentPage = Integer.parseInt(currentPageStr);
+        int currentPage = condition.getCurrentPage();
 
         if (currentPage <= 0) {
             currentPage = 1;
         }
 
         //每页展示页码数
-        int rows = Integer.parseInt(rowsStr);
-
+        int rows = condition.getRows();
 
         //调用dao查询总记录数
-        int totalCount = dao.findTotalCount(searchCodition);
+        int totalCount = dao.findTotalCount(condition);
 
         //计算总页码
         int totalPage = (totalCount % rows) == 0 ? (totalCount / rows) : (totalCount / rows) + 1;
+
+        if (totalCount < 1) {
+            totalPage = 1;
+        }
 
         if (currentPage > totalPage){
             currentPage = totalPage;
@@ -70,19 +65,11 @@ public class JobServiceImpl implements JobService {
         //计算开始的记录索引
         int start = (currentPage - 1) * rows;
 
-        //新建分页条件map,先将搜索条件复制过来，再增加条件
-        Map<String, Object> pageCondition = new HashMap<>();
-        Set<String> keySet = searchCodition.keySet();
-        for (String key : keySet) {
-            pageCondition.put(key, searchCodition.get(key));
-        }
-
-        pageCondition.put("start", start);
-        pageCondition.put("rows", rows);
-
+        //搜索条件中增加分页条件
+        condition.setStart(start);
 
         //调用dao查询List集合
-        List<Job> jobs = dao.findByPage(pageCondition);
+        List<Job> jobs = dao.findByPage(condition);
 
         //创建空的PageBean对象
         PageBean<Job> pb = new PageBean<>();
@@ -94,7 +81,6 @@ public class JobServiceImpl implements JobService {
         pb.setTotalPage(totalPage);
 
         return pb;
-
     }
 
 
@@ -113,11 +99,9 @@ public class JobServiceImpl implements JobService {
      * @return List<JobHeatmapData>
      */
     @Override
-    public List<JobHeatmapData> findSomePoints(Map<String, String[]> condition) {
-        //搜索条件map
-        Map<String, Object> searchCodition = ConditionUtils.getSearchCodition(condition);
+    public List<JobHeatmapData> findSomePoints(SearchCondition condition) {
 
-        return dao.findSomePoints(searchCodition);
+        return dao.findSomePoints(condition);
     }
 
     /**

@@ -2,11 +2,11 @@ package cn.xgblack.heatmap.dao;
 
 
 import cn.xgblack.heatmap.dto.JobHeatmapData;
+import cn.xgblack.heatmap.dto.SearchCondition;
 import cn.xgblack.heatmap.entity.Job;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author 小光
@@ -23,7 +23,7 @@ public interface JobDao {
      * @param condition 查询的条件
      * @return totalCount总记录数
      */
-    int findTotalCount(Map<String, Object> condition);
+    int findTotalCount(SearchCondition condition);
 
 
     /**
@@ -31,7 +31,7 @@ public interface JobDao {
      * @param condition 查询的条件
      * @return List<User>
      */
-    List<Job> findByPage(Map<String, Object> condition);
+    List<Job> findByPage(SearchCondition condition);
 
     /**
      * 直接查找所有Job数据,只包含jid,lat,lon,(minwage,maxwage)/2
@@ -45,7 +45,7 @@ public interface JobDao {
      * @param condition 查找条件
      * @return List<JobHeatmapData>
      */
-    List<JobHeatmapData> findSomePoints(Map<String, Object> condition);
+    List<JobHeatmapData> findSomePoints(SearchCondition condition);
 
 
     /**

@@ -2,10 +2,10 @@ package cn.xgblack.heatmap.service;
 
 import cn.xgblack.heatmap.dto.JobHeatmapData;
 import cn.xgblack.heatmap.dto.PageBean;
+import cn.xgblack.heatmap.dto.SearchCondition;
 import cn.xgblack.heatmap.entity.Job;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author 小光
@@ -18,12 +18,10 @@ public interface JobService {
 
     /**
      *
-     * @param currentPage 当前页码
-     * @param rows 每页显示条数
-     * @param condition 分页+查询的条件
+     * @param searchCondition 分页+查询的条件
      * @return PageBean<User>
      */
-    PageBean<Job> findJobByPage(String currentPage, String rows, Map<String, String[]> condition);
+    PageBean<Job> findJobByPage(SearchCondition searchCondition);
 
     /**
      * 直接查找所有Job数据,只包含jid,lat,lon,minwage,maxwage
@@ -44,6 +42,6 @@ public interface JobService {
      * @param condition 查找条件
      * @return List<JobHeatmapData>
      */
-    List<JobHeatmapData> findSomePoints(Map<String, String[]> condition);
+    List<JobHeatmapData> findSomePoints(SearchCondition condition);
 
 }
