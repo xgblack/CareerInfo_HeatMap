@@ -1,6 +1,6 @@
 package cn.xgblack.heatmap.service.impl;
 
-import cn.xgblack.heatmap.dao.UserDao;
+import cn.xgblack.heatmap.mapper.UserMapper;
 import cn.xgblack.heatmap.entity.User;
 import cn.xgblack.heatmap.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    private UserDao dao ;
+    private UserMapper userMapper;
 
     /**
      * 查看用户名是否已经被注册
@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public boolean usernameIsExist(String username) {
-        List<User> users = dao.findUserByUsername(username);
+        List<User> users = userMapper.findUserByUsername(username);
         if (users.size() == 0) {
             return false;
         } else {
@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User login(User loginUser) {
         //调用dao层的方案
-        return dao.findUserByUsernameAndPassword(loginUser);
+        return userMapper.findUserByUsernameAndPassword(loginUser);
     }
 
     /**
@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService {
     @Transactional(propagation = Propagation.REQUIRED)
     public boolean regist(User registerUser) {
         //操作的数据库行数
-        return dao.insertNewUser(registerUser);
+        return userMapper.insertNewUser(registerUser);
 
     }
 

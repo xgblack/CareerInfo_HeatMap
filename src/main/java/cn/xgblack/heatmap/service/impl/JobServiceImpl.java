@@ -1,6 +1,6 @@
 package cn.xgblack.heatmap.service.impl;
 
-import cn.xgblack.heatmap.dao.JobDao;
+import cn.xgblack.heatmap.mapper.JobMapper;
 import cn.xgblack.heatmap.dto.JobHeatmapData;
 import cn.xgblack.heatmap.dto.PageBean;
 import cn.xgblack.heatmap.dto.SearchCondition;
@@ -27,7 +27,7 @@ import java.util.List;
 public class JobServiceImpl implements JobService {
 
     @Autowired
-    private JobDao dao ;
+    private JobMapper jobMapper;
 
     /**
      *
@@ -49,7 +49,7 @@ public class JobServiceImpl implements JobService {
         int rows = condition.getRows();
 
         //调用dao查询总记录数
-        int totalCount = dao.findTotalCount(condition);
+        int totalCount = jobMapper.findTotalCount(condition);
 
         //计算总页码
         int totalPage = (totalCount % rows) == 0 ? (totalCount / rows) : (totalCount / rows) + 1;
@@ -69,7 +69,7 @@ public class JobServiceImpl implements JobService {
         condition.setStart(start);
 
         //调用dao查询List集合
-        List<Job> jobs = dao.findByPage(condition);
+        List<Job> jobs = jobMapper.findByPage(condition);
 
         //创建空的PageBean对象
         PageBean<Job> pb = new PageBean<>();
@@ -90,7 +90,7 @@ public class JobServiceImpl implements JobService {
      */
     @Override
     public List<JobHeatmapData> findAllJobPonits() {
-        return dao.findAllJobPonits();
+        return jobMapper.findAllJobPonits();
     }
 
     /**
@@ -101,7 +101,7 @@ public class JobServiceImpl implements JobService {
     @Override
     public List<JobHeatmapData> findSomePoints(SearchCondition condition) {
 
-        return dao.findSomePoints(condition);
+        return jobMapper.findSomePoints(condition);
     }
 
     /**
@@ -115,7 +115,7 @@ public class JobServiceImpl implements JobService {
         int start = Integer.parseInt(startStr);
         int eachPoint = Integer.parseInt(eachPointsStr);
 
-        return dao.findSomeJob(start, eachPoint);
+        return jobMapper.findSomeJob(start, eachPoint);
     }
 
 

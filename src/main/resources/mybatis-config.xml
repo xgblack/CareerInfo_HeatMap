@@ -15,8 +15,4 @@
         <setting name="logImpl" value="LOG4J"/>
     </settings>
 
-    <!-- 定义 别名 -->
-    <typeAliases>
-        <package name="cn.xgblack.heatmap.dto"/>
-    </typeAliases>
 </configuration>

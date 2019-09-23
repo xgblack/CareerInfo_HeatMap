@@ -1,26 +1,27 @@
-package cn.xgblack.heatmap.dao;
+package cn.xgblack.heatmap.mapper;
 
+import cn.xgblack.heatmap.HeatmapApplication;
 import cn.xgblack.heatmap.dto.JobHeatmapData;
 import cn.xgblack.heatmap.dto.SearchCondition;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:spring/spring-dao.xml")
-public class JobDaoTest {
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = HeatmapApplication.class)
+public class JobMapperTest {
 
     @Autowired
-    private JobDao dao;
+    private JobMapper mapper;
 
     @Test
     public void testFindTotalCount(){
         SearchCondition condition = new SearchCondition(1,1,15,null,"java","北京",3000.0);
-        int totalCount = dao.findTotalCount(condition);
+        int totalCount = mapper.findTotalCount(condition);
         System.out.println(totalCount);
     }
 
@@ -28,7 +29,7 @@ public class JobDaoTest {
     public void testFindJobPoints(){
         //SearchCondition condition = new SearchCondition();
         SearchCondition condition = new SearchCondition(1,1,15,null,"java","北京",3000.0);
-        List<JobHeatmapData> points = dao.findSomePoints(condition);
+        List<JobHeatmapData> points = mapper.findSomePoints(condition);
         System.out.println(points);
     }
 }

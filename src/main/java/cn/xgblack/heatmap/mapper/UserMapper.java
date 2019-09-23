@@ -1,4 +1,4 @@
-package cn.xgblack.heatmap.dao;
+package cn.xgblack.heatmap.mapper;
 
 import cn.xgblack.heatmap.entity.User;
 import org.springframework.stereotype.Repository;
@@ -13,7 +13,7 @@ import java.util.List;
  * description:
  */
 @Repository
-public interface UserDao {
+public interface UserMapper {
 
     /**
      * 根据用户名查找用户

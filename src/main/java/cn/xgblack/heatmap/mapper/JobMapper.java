@@ -1,10 +1,9 @@
-package cn.xgblack.heatmap.dao;
+package cn.xgblack.heatmap.mapper;
 
 
 import cn.xgblack.heatmap.dto.JobHeatmapData;
 import cn.xgblack.heatmap.dto.SearchCondition;
 import cn.xgblack.heatmap.entity.Job;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -12,11 +11,10 @@ import java.util.List;
  * @author 小光
  * @date 2019/5/26 15:00
  * Copyright(C),2018-2019,https://blog.xgblack.cn
- * interfaceName: JobDao
+ * interfaceName: JobMapper
  * description:
  */
-@Repository
-public interface JobDao {
+public interface JobMapper {
 
     /**
      * 查询总记录数
