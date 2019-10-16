@@ -22,11 +22,7 @@ spring:
       max-active: 20
       max-wait: 30000
 
-  #      druid.pool.size.max=20
-#      druid.pool.size.min=3
-#      druid.pool.size.init=5
-#
-#      druid.pool.maxWait=30000
+
   redis:
     host: 127.0.0.1
     port: 6379
