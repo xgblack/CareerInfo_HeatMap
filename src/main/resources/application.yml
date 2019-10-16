@@ -27,6 +27,11 @@ spring:
     host: 127.0.0.1
     port: 6379
 
+  mvc:
+    view:
+      prefix: /WEF-INF/jsp/
+      suffix: .jsp
+
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml
   type-aliases-package: cn.xgblack.heatmap.entity cn.xgblack.heatmap.dto
