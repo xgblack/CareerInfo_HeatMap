@@ -6,8 +6,10 @@ server:
 spring:
   # HTTP ENCODING
   http:
-    encoding.charset: UTF-8
-    encoding.force: true
+    encoding:
+      enabled: true
+      charset: utf-8
+      force: true
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -23,14 +25,19 @@ spring:
       max-wait: 30000
 
 
-  redis:
-    host: 127.0.0.1
-    port: 6379
+#  redis:
+#    host: 127.0.0.1
+#    port: 6379
 
   mvc:
     view:
       prefix: /WEF-INF/jsp/
       suffix: .jsp
+
+#  设置热部署
+  devtools:
+    restart:
+      enabled: true
 
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml
