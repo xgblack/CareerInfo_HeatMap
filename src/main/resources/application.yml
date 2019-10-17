@@ -10,35 +10,3 @@ spring:
       enabled: true
       charset: utf-8
       force: true
-  datasource:
-    type: com.alibaba.druid.pool.DruidDataSource
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/study?userUnicode=true&characterEncoding=utf-8
-    username: study
-    password: 123
-
-    #Druid
-    druid:
-      initial-size: 5
-      min-idle: 5
-      max-active: 20
-      max-wait: 30000
-
-
-#  redis:
-#    host: 127.0.0.1
-#    port: 6379
-
-  mvc:
-    view:
-      prefix: /WEF-INF/jsp/
-      suffix: .jsp
-
-#  设置热部署
-  devtools:
-    restart:
-      enabled: true
-
-mybatis:
-  mapper-locations: classpath:mapper/*Mapper.xml
-  type-aliases-package: cn.xgblack.heatmap.entity cn.xgblack.heatmap.dto
