@@ -19,14 +19,14 @@
     <link rel="bookmark" href="${pageContext.request.contextPath}/favicon.ico"/>
 
     <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
-    <script src="${pageContext.request.contextPath}/resources/js/jquery-3.4.1.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/jquery-3.4.1.min.js"></script>
 
     <!-- Bootstrap -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/bootstrap-3.3.7-dist/css/bootstrap.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap-slider.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap-colorpicker.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/bootstrap-3.3.7-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap-slider.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap-colorpicker.css">
 
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mapstyle.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/mapstyle.css">
 
 
     <script type="text/javascript" src="https://api.map.baidu.com/api?v=3.0&ak=zKfGbrgNomYkFrUEy8a09Tw1PLudhUnU">
@@ -34,7 +34,7 @@
     </script>
 
 
-    <script src="${pageContext.request.contextPath}/resources/js/heatmap_baidu.js"></script>
+    <script src="${pageContext.request.contextPath}/js/heatmap_baidu.js"></script>
 
 
     <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
@@ -83,8 +83,6 @@
             refreshPages(searchTotalPage,1);
             //打开页面，热力图的点
             searchSomePoints(cfg);
-
-
 
 
             /**
@@ -150,8 +148,6 @@
                 changeGradient(grades,colors);
                 $('#ChangeGradientModa').modal('hide');
             });
-
-
 
         });
 
@@ -597,10 +593,10 @@
 <script src="${pageContext.request.contextPath}/resources/js/mapfunction.js"></script>
 
 <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
-<script src="${pageContext.request.contextPath}/resources/static/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/bootstrap-paging.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/bootstrap-slider.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/bootstrap-colorpicker.js"></script>
+<script src="${pageContext.request.contextPath}/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+<script src="${pageContext.request.contextPath}/js/bootstrap-paging.js"></script>
+<script src="${pageContext.request.contextPath}/js/bootstrap-slider.js"></script>
+<script src="${pageContext.request.contextPath}/js/bootstrap-colorpicker.js"></script>
 
 </body>
 </html>
