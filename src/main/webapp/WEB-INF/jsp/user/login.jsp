@@ -15,9 +15,9 @@
     <link rel="bookmark" href="${pageContext.request.contextPath}/favicon.ico"/>
 
     <!-- Bootstrap -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/static/bootstrap-3.3.7-dist/css/bootstrap.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/registlogin.css">
-    <script src="${pageContext.request.contextPath}/resources/js/jquery-3.4.1.min.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/bootstrap-3.3.7-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/registlogin.css">
+    <script src="${pageContext.request.contextPath}/js/jquery-3.4.1.min.js"></script>
     <script type="text/javascript">
 
         function refreshCode() {
@@ -74,6 +74,6 @@
     </div>
 </div>
 <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
-<script src="${pageContext.request.contextPath}/resources/static/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+<script src="${pageContext.request.contextPath}/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
 </body>
 </html>
