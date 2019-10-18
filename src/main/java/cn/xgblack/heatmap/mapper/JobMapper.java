@@ -4,6 +4,8 @@ package cn.xgblack.heatmap.mapper;
 import cn.xgblack.heatmap.dto.JobHeatmapData;
 import cn.xgblack.heatmap.dto.SearchCondition;
 import cn.xgblack.heatmap.entity.Job;
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -14,6 +16,8 @@ import java.util.List;
  * interfaceName: JobMapper
  * description:
  */
+@Mapper
+@Repository
 public interface JobMapper {
 
     /**

@@ -11,10 +11,7 @@ import lombok.*;
  * Copyright(C),2018-2019,https://blog.xgblack.cn  .All rights reserved.
  * ***************************************************************************
  */
-@Setter
-@Getter
-@ToString
-@NoArgsConstructor
+@Data
 @AllArgsConstructor
 public class Job {
     /**

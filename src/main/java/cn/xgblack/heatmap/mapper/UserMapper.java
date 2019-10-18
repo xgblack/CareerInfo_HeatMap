@@ -1,6 +1,7 @@
 package cn.xgblack.heatmap.mapper;
 
 import cn.xgblack.heatmap.entity.User;
+import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
  * interfaceName: UserDao
  * description:
  */
+@Mapper
 @Repository
 public interface UserMapper {
 
