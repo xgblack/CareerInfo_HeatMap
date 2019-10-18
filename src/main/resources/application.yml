@@ -29,3 +29,7 @@ spring:
     view:
       prefix: /WEB-INF/jsp/
       suffix: .jsp
+
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  type-aliases-package: cn.xgblack.heatmap.entity cn.xgblack.heatmap.dto

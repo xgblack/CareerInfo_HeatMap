@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.xgblack.heatmap.mapper.JobMapper">
+
+    <resultMap id="jobHeatmapData" type="jobHeatmapData">
+        <result property="lat" column="lat"></result>
+        <result property="lng" column="lon"></result>
+        <result property="count" column="count"></result>
+    </resultMap>
+
+    <sql id="searchCondition" >
+        <where>
+            <if test="cname != null and cname != ''">
+                AND cname LIKE CONCAT('%',#{cname},'%')
+            </if>
+            <if test="jname != null and cname != ''">
+                AND jname LIKE CONCAT('%',#{jname},'%')
+            </if>
+            <if test="province != null and cname != ''">
+                AND province LIKE CONCAT('%',#{province},'%')
+            </if>
+            <if test="minwage != null and minwage > 0">
+                AND minwage >= #{minwage}
+            </if>
+        </where>
+    </sql>
+    <!-- 查询总记录数（无查询条件）-->
+    <select id="findTotalCount" resultType="Integer" parameterType="SearchCondition">
+        SELECT COUNT(jid)
+        FROM job
+        <include refid="searchCondition"></include>
+    </select>
+
+<!--    查询分页的数据-->
+    <select id="findByPage" resultType="job" parameterType="SearchCondition">
+        SELECT jid,cname,jname,lon,lat,minwage,maxwage,province,highlights,erequir
+        FROM job
+        <include refid="searchCondition"></include>
+        LIMIT #{start},#{rows}
+    </select>
+
+<!--    直接查找所有Job数据-->
+    <select id="findAllJobPonits" resultMap="jobHeatmapData" parameterType="SearchCondition">
+        SELECT lat ,lon,((minwage + maxwage) / 2 ) AS count
+        FROM job
+    </select>
+
+<!--    根据查找条件加载热力图点    -->
+    <select id="findSomePoints" resultMap="jobHeatmapData" parameterType="SearchCondition">
+        SELECT lat ,lon,((minwage + maxwage) / 2 ) AS count
+        FROM job
+        <include refid="searchCondition"></include>
+    </select>
+
+<!--    按照索引和条数查询热力图的点-->
+<!--    没有使用-->
+    <select id="findSomeJob" resultType="jobHeatmapData">
+
+    </select>
+</mapper>
