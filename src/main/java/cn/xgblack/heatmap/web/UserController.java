@@ -90,18 +90,9 @@ public class UserController {
 
     }
 
-    /**
-     * 登录验证
-     * @param request 请求
-     * @param response 响应
-     * @param verifycode 验证码
-     * @param loginUser 登录用户信息
-     * @throws ServletException //TODO
-     * @throws IOException //TODO
-     */
+
     @RequestMapping("/loginCheck")
-    public String login(HttpServletRequest request,HttpServletResponse response,HttpSession session, String verifycode ,User loginUser) throws ServletException, IOException {
-        System.out.println(request.getContextPath());
+    public String login(HttpServletRequest request,HttpSession session , String verifycode ,User loginUser){
         //获取生成的验证码
         String checkcode_session = (String)session.getAttribute("checkcode_session");
 
@@ -113,10 +104,7 @@ public class UserController {
 
             //验证码不对，存储错误信息，并跳转
             request.setAttribute("login_msg","验证码输入错误！");
-            request.getRequestDispatcher("/user/login").forward(request,response);
-
-            //结束方法
-            return "";
+            return "/user/login";
 
         }
         //调用service层的方法，查询登录是否成功
@@ -124,15 +112,13 @@ public class UserController {
         if (user == null) {
             //用户名或密码错误
             request.setAttribute("login_msg","用户名或密码错误");
-            request.getRequestDispatcher("/user/login").forward(request,response);
-            return "";
+            return "/user/login";
         }else {
             //登陆成功
             session.setAttribute("user",user);
             //跳转页面（直接重定向）
-            return "/";
+            return "redirect:/";
         }
-
     }
 
 
