@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
@@ -26,7 +25,7 @@ public class UserController {
      */
     @RequestMapping("/register")
     public String toRegister(){
-        return "user/regist";
+        return "user/register";
     }
 
     /**
@@ -41,7 +40,6 @@ public class UserController {
     /**
      * 注册验证
      * @param request 请求
-     * @param response 响应
      * @param session 会话
      * @param verifycode 验证码
      * @param registerUser 注册用户信息
@@ -49,7 +47,7 @@ public class UserController {
      * @throws IOException 异常//TODO
      */
     @RequestMapping("/registerCheck")
-    public void register(HttpServletRequest request, HttpServletResponse response, HttpSession session , String verifycode , User registerUser) throws ServletException, IOException {
+    public String register(HttpServletRequest request, HttpSession session , String verifycode , User registerUser) throws ServletException, IOException {
 
         //获取生成的验证码
         String checkcode_session = (String)session.getAttribute("checkcode_session");
@@ -62,10 +60,7 @@ public class UserController {
 
             //验证码不对，存储错误信息，并跳转
             request.setAttribute("regist_msg","验证码输入错误！");
-            request.getRequestDispatcher("/user/register").forward(request,response);
-
-            //结束方法
-            return;
+            return "/user/register";
 
         }
 
@@ -73,24 +68,32 @@ public class UserController {
         if (service.usernameIsExist(registerUser.getUsername())) {
             //用户名已存在
             request.setAttribute("regist_msg", "用户名已存在");
-            request.getRequestDispatcher("/user/register").forward(request, response);
-
-            return;
+            return "/user/register";
         }
 
         if (service.regist(registerUser)) {
             //注册成功
-            request.setAttribute("login_msg", "注册成功，请登录");
-            request.getRequestDispatcher("/user/login").forward(request, response);
+            request.setAttribute("login_msg", "注册成功，自动登录");
+            //注册成功。尝试自动登录
+            session.setAttribute("user",registerUser);
+            //跳转页面（直接重定向）
+            return "redirect:/";
         } else {
             //注册失败
             request.setAttribute("regist_msg", "注册失败，请重试");
-            request.getRequestDispatcher("/user/register").forward(request, response);
+            return "/user/register";
         }
 
     }
 
-
+    /**
+     * 登录验证
+     * @param request 请求
+     * @param session 回话
+     * @param verifycode 验证码
+     * @param loginUser 用户输入信息
+     * @return
+     */
     @RequestMapping("/loginCheck")
     public String login(HttpServletRequest request,HttpSession session , String verifycode ,User loginUser){
         //获取生成的验证码
