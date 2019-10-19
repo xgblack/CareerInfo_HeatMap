@@ -590,7 +590,7 @@
     </div>
 </div>
 
-<script src="${pageContext.request.contextPath}/resources/js/mapfunction.js"></script>
+<script src="${pageContext.request.contextPath}/js/mapfunction.js"></script>
 
 <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
 <script src="${pageContext.request.contextPath}/bootstrap-3.3.7-dist/js/bootstrap.js"></script>

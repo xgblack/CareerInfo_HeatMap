@@ -13,9 +13,7 @@ import java.util.List;
  * Copyright(C),2018-2019,https://blog.xgblack.cn  .All rights reserved.
  * ***************************************************************************
  */
-@Setter
-@Getter
-@ToString
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class PageBean<T> {
