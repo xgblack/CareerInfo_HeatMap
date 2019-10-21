@@ -11,7 +11,7 @@
 	<groupId>cn.xgblack</groupId>
 	<artifactId>heatmap</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>CareerInfo_HeatMap</name>
 	<description>招聘信息热力图展示系统</description>
 
@@ -105,6 +105,18 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>1.4.2.RELEASE</version>
+				<configuration>
+					<!-- 设置启动类 -->
+					<mainClass>cn.xgblack.heatmap.CareerInfoHeatMapApplication</mainClass>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
