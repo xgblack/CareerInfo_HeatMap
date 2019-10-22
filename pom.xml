@@ -11,7 +11,7 @@
 	<groupId>cn.xgblack</groupId>
 	<artifactId>heatmap</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>CareerInfo_HeatMap</name>
 	<description>招聘信息热力图展示系统</description>
 
