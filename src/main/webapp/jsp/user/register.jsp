@@ -108,7 +108,7 @@
                 s_tel.innerHTML = "<img width='25' height='25' src='${pageContext.request.contextPath}/images/right.png'/>";
             } else {
                 //两次密码不一致
-                s_tel.innerHTML = "<img width='25' height='25' src='/images/error.png'/>手机号格式不正确";
+                s_tel.innerHTML = "<img width='25' height='25' src='/static/images/error.png'/>手机号格式不正确";
             }
             return flag;
         }
