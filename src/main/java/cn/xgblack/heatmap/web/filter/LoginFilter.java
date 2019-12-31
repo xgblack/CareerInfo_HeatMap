@@ -3,10 +3,11 @@ package cn.xgblack.heatmap.web.filter;
 import cn.xgblack.heatmap.entity.User;
 
 import javax.servlet.*;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
-//@WebFilter("/")
+@WebFilter("/")
 public class LoginFilter implements Filter {
 
     @Override
