@@ -15,7 +15,7 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/study?useSSL=false
     username: study
-    password: bxjcg..123..
+    password: 123
 
     #Druid
     druid:
